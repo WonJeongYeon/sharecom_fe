@@ -1,0 +1,56 @@
+import styled from "styled-components";
+
+const NavList = styled.div`
+  list-style: none;
+  left: 0;
+  height: auto;
+  width: 50px;
+  position:absolute;
+  top:0;
+  bottom:0;
+`;
+
+const NavItem = styled.div`
+  height: 25%;
+  border: 1px solid black;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  background-color: gray;
+  writing-mode: vertical-lr;
+  //padding-left: 50%;
+  display: flex;
+  justify-content: center;
+  text-orientation: upright;
+`;
+
+const NavItem_Selected = styled.div`
+  height: 25%;
+  border: 1px solid white;
+  width: 100%;
+  elevation: higher;
+  text-align: center;
+  align-items: center;
+  background-color: gray;
+  color: white;
+  writing-mode: vertical-lr;
+  //padding-left: 50%;
+  display: flex;
+  justify-content: center;
+  text-orientation: upright;
+`;
+
+const Nav = (props) => {
+    return (
+
+            <NavList>
+                <NavItem_Selected>부품관리</NavItem_Selected>
+                <NavItem>PC관리</NavItem>
+                <NavItem>고객관리</NavItem>
+                <NavItem>종합관리</NavItem>
+            </NavList>
+    )
+
+}
+
+export default Nav;

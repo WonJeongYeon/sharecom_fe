@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "type": "CPU",
+      "name": "i5-12400K",
+      "serial" : "M2207KN401432",
+      "buy_at": "2023-03-03",
+      "used_yn": true,
+      "etc": "고객 직접요구 물품"
+    },
+    {
+      "id": 2,
+      "type": "CPU",
+      "name": "i5-12400K",
+      "serial" : "M2207KN401433",
+      "buy_at": "2023-03-03",
+      "used_yn": true,
+      "etc": "고객 직접요구 물품이 아님"
+    },
+    {
+      "id": 3,
+      "type": "CPU",
+      "name": "i5-12400K",
+      "serial" : "M2207KN401434",
+      "buy_at": "2023-03-03",
+      "used_yn": false,
+      "etc": "고객 직접요구 물품일까?"
+    }
+  ]
+}
