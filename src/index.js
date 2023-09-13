@@ -8,6 +8,9 @@ import store from "./redux/store";
 import {PersistGate} from "redux-persist/integration/react";
 import {Provider} from "react-redux";
 import {persistStore} from "redux-persist";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Parts from "./parts/Parts";
+import Desktop from "./desktop/Desktop";
 
 export let persistor = persistStore(store);
 
@@ -15,7 +18,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-    <App />
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<App />}>
+                        <Route path="/" element={<Parts />}/>
+                        <Route path="desktop" element={<Desktop/>}/>
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+
         </PersistGate>
     </Provider>
 );

@@ -83,12 +83,6 @@ const AddParts = (props) => {
     // }
 
 
-    const ExampleCustomInput = ({ value, onClick }) => (
-        <button className="example-custom-input" onClick={onClick}>
-            {value}
-        </button>
-    );
-
     return (
         <Modal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
             <ModalContainer className={"modal_container"}>
