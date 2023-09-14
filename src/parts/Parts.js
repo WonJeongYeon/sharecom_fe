@@ -55,7 +55,8 @@ const Parts = (props) => {
                     name: name,
                     serial: serial,
                     buy_at: buy_at,
-                    etc: etc
+                    etc: etc,
+                    usedYn: null
                 }
             });
             console.log(data.data.response);

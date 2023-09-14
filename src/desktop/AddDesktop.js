@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import {useDispatch} from "react-redux";
 import {close} from "../redux/modalSlice";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import AddDesktopFindParts from "./AddDesktopFindParts";
 
 const Modal = styled.div`
     position: fixed;
@@ -28,7 +29,7 @@ const ModalContainer = styled.div`
     top: 50%;
     left: 50%;
 
-    width: 350px;
+    width: 70%;
     height: 500px;
 
     padding: 40px;
@@ -49,17 +50,85 @@ const AddParts = (props) => {
     const [serial, setSerial] = useState(null);
     const [etc, setEtc] = useState();
 
+    const [cpuData, setCpuData] = useState([]);
+    const [gpuData, setGpuData] = useState([]);
+    const [boardData, setBoardData] = useState([]);
+    const [ssdData, setSsdData] = useState([]);
+    const [ramData, setRamData] = useState([]);
+    const [powerData, setPowerData] = useState([]);
+    const [coolerData, setCoolerData] = useState([]);
+
+    const [cpuId, setCpuId] = useState();
+    const [gpuId, setGpuId] = useState();
+    const [boardId, setBoardId] = useState();
+    const [ssdId, setSsdId] = useState();
+    const [ramId, setRamId] = useState();
+    const [powerId, setPowerId] = useState();
+    const [coolerId, setCoolerId] = useState();
+
     const saveParts = async () => {
+
         try {
             const data = await axios.post("/desktop",  {
                     serial: serial,
-                    etc: etc
+                    etc: etc,
+                    cpuId: cpuId,
+                    gpuId: gpuId,
+                    boardId: boardId,
+                    ssdId: ssdId,
+                    ramId: ramId,
+                    powerId: powerId,
+                    coolerId: coolerId
             });
             console.log(data.data.response);
+            if (data.data.response === "성공") {
+                dispatch(close());
+            } else {
+                alert("오류가 발생했습니다. 다시 시도해 주세요.");
+            }
         } catch {
             console.log("eee");
         }
     }
+
+    const findParts = async (type) => {
+        try {
+            const partsData = await axios.get("/parts", {
+                params: {
+                    type: type,
+                    name: null,
+                    serial: null,
+                    buy_at: null,
+                    etc: null,
+                    usedYn: false
+                }
+            });
+            switch (type) {
+                case "CPU":setCpuData(partsData.data.response); break;
+                case "GPU":setGpuData(partsData.data.response); break;
+                case "MAIN_BOARD":setBoardData(partsData.data.response); break;
+                case "SSD":setSsdData(partsData.data.response); break;
+                case "RAM":setRamData(partsData.data.response); break;
+                case "POWER":setPowerData(partsData.data.response); break;
+                case "COOLER":setCoolerData(partsData.data.response); break;
+                default: alert("Unknown type: " + type);
+            }
+
+        } catch {
+
+        }
+
+
+    }
+    useEffect(() => {
+        findParts("CPU");
+        findParts("GPU");
+        findParts("MAIN_BOARD");
+        findParts("SSD");
+        findParts("RAM");
+        findParts("COOLER");
+        findParts("POWER");
+    }, [])
 
     return (
         <Modal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
@@ -76,8 +145,20 @@ const AddParts = (props) => {
                         <input type={"text"} placeholder={"기타 사항"}
                                onInput={(e) => {setEtc(e.target.value)}}/>
                     </div>
-                    <button type="button" onClick={() => {saveParts()}}>저장하기</button>
+
                 </div>
+
+
+                <AddDesktopFindParts data={cpuData} type={"CPU"} setData={setCpuData} setId={setCpuId}/>
+                <AddDesktopFindParts data={gpuData} type={"GPU"} setData={setGpuData} setId={setGpuId}/>
+                <AddDesktopFindParts data={boardData} type={"MAIN_BOARD"} setData={setBoardData} setId={setBoardId}/>
+                <AddDesktopFindParts data={ssdData} type={"SSD"} setData={setSsdData} setId={setSsdId}/>
+                <AddDesktopFindParts data={ramData} type={"RAM"} setData={setRamData} setId={setRamId}/>
+                <AddDesktopFindParts data={powerData} type={"POWER"} setData={setPowerData} setId={setPowerId}/>
+                <AddDesktopFindParts data={coolerData} type={"COOLER"} setData={setCoolerData} setId={setCoolerId}/>
+
+
+                <button type="button" onClick={() => {saveParts()}}>저장하기</button>
             </ModalContainer>
         </Modal>
     )
