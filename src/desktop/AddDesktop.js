@@ -83,6 +83,8 @@ const AddParts = (props) => {
             console.log(data.data.response);
             if (data.data.response === "성공") {
                 dispatch(close());
+            } else if (data.data.response === "이미 존재하는 본체 고유번호입니다.") {
+                alert(data.data.response);
             } else {
                 alert("오류가 발생했습니다. 다시 시도해 주세요.");
             }

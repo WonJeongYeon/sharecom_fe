@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import DesktopParts from "./DesktopParts";
 import {useDispatch, useSelector} from "react-redux";
 import AddDesktop from "./AddDesktop";
-import {open} from "../redux/modalSlice";
+import {add} from "../redux/modalSlice";
 
 const Desktop = () => {
 
@@ -49,7 +49,7 @@ const Desktop = () => {
 
     return (
         <div style={{marginLeft: "55px"}}>
-            {modal && <AddDesktop/>}
+            {modal==="add" && <AddDesktop/>}
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div>
                     <div>
@@ -93,7 +93,7 @@ const Desktop = () => {
                     </button>
                 </div>
                 <div>
-                    <button type="button" onClick={() => {dispatch(open())}}>
+                    <button type="button" onClick={() => {dispatch(add())}}>
                         본체 등록
                     </button>
                 </div>
