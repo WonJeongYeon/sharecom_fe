@@ -3,7 +3,9 @@ import {useEffect, useState} from "react";
 import DesktopParts from "./DesktopParts";
 import {useDispatch, useSelector} from "react-redux";
 import AddDesktop from "./AddDesktop";
-import {add} from "../redux/modalSlice";
+import {add, inactive} from "../redux/modalSlice";
+import ModifyDesktop from "./ModifyDesktop";
+import DeleteDesktop from "./DeleteDesktop";
 
 const Desktop = () => {
 
@@ -15,6 +17,8 @@ const Desktop = () => {
 
     const modal = useSelector((state) => state.modal.value);
     const dispatch = useDispatch();
+
+    const [type, setType] = useState("");
 
     const [customInput, setCustomInput] = useState(false);
     const getData = async () => {
@@ -49,7 +53,21 @@ const Desktop = () => {
 
     return (
         <div style={{marginLeft: "55px"}}>
-            {modal==="add" && <AddDesktop/>}
+            {modal === "add" && <AddDesktop/>}
+            {modal === "modify_desktop" &&
+                <ModifyDesktop reload={getDetailData} usedYn={detailData === null ? false : detailData.usedYn}
+                               id={detailData === null ? 0 : detailData.id} type={type}
+                               serial={detailData === null ? "" : detailData.serial}
+                               etc={detailData === null ? "" : detailData.etc}
+                               parts={JSON.stringify(type === 'CPU' ? detailData.cpu :
+                                   type === 'GPU' ? detailData.gpu :
+                                       type === 'MAIN_BOARD' ? detailData.mainBoard :
+                                           type === 'SSD' ? detailData.ssd :
+                                               type === 'RAM' ? detailData.ram :
+                                                   type === 'POWER' ? detailData.power :
+                                                       detailData.cooler)}
+                />}
+            {modal === "delete" && <DeleteDesktop data={detailData===null? null : JSON.stringify(detailData)}/>}
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div>
                     <div>
@@ -93,7 +111,9 @@ const Desktop = () => {
                     </button>
                 </div>
                 <div>
-                    <button type="button" onClick={() => {dispatch(add())}}>
+                    <button type="button" onClick={() => {
+                        dispatch(add())
+                    }}>
                         본체 등록
                     </button>
                 </div>
@@ -105,14 +125,15 @@ const Desktop = () => {
                         <div>본체 {detailData.serial}</div>
                         <div>현재 대여 여부 : {detailData.usedYn.toString()}</div>
                         {detailData.usedYn && <div>대여일자 : {detailData.usedAt}</div>}
+                        <div><button onClick={() => {dispatch(inactive())}}>삭제하기</button></div>
                         <div style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridGap: "1rem"}}>
-                            <DesktopParts type={"CPU"} data={detailData.cpu}/>
-                            <DesktopParts type={"GPU"} data={detailData.gpu}/>
-                            <DesktopParts type={"메인보드"} data={detailData.mainBoard}/>
-                            <DesktopParts type={"RAM"} data={detailData.ram}/>
-                            <DesktopParts type={"ssd"} data={detailData.ssd}/>
-                            <DesktopParts type={"파워"} data={detailData.power}/>
-                            <DesktopParts type={"쿨러"} data={detailData.cooler}/>
+                            <DesktopParts type={"CPU"} data={detailData.cpu} setType={setType}/>
+                            <DesktopParts type={"GPU"} data={detailData.gpu} setType={setType}/>
+                            <DesktopParts type={"메인보드"} data={detailData.mainBoard} setType={setType}/>
+                            <DesktopParts type={"RAM"} data={detailData.ram} setType={setType}/>
+                            <DesktopParts type={"SSD"} data={detailData.ssd} setType={setType}/>
+                            <DesktopParts type={"파워"} data={detailData.power} setType={setType}/>
+                            <DesktopParts type={"쿨러"} data={detailData.cooler} setType={setType}/>
                         </div>
                     </div>
                 }

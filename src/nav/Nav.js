@@ -59,7 +59,9 @@ const Nav = (props) => {
             <Link to={"/desktop"} style={{textDecoration: "none"}} onClick={() => {setMenu("desktop")}}>
                 {menu === "desktop" ? <NavItemSelected>PC관리</NavItemSelected>: <NavItem>PC관리</NavItem> }
                 </Link>
-            <NavItem>고객관리</NavItem>
+            <Link to={"/customer"} style={{textDecoration: "none"}} onClick={() => {setMenu("customer")}}>
+                {menu === "customer" ? <NavItemSelected>고객관리</NavItemSelected>: <NavItem>고객관리</NavItem> }
+            </Link>
             <NavItem>종합관리</NavItem>
         </NavList>
     )

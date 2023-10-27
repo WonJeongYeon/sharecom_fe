@@ -59,6 +59,15 @@ const Parts = (props) => {
 
     const [dropdown, setDropdown] = useState(0);
 
+    const partsTypeChanger = (type) => {
+        switch (type) {
+            case 'MAIN_BOARD' : return '메인보드';
+            case 'POWER' : return '파워';
+            case 'COOLER' : return '쿨러';
+            default: return type;
+        }
+    }
+
     const getData = async () => {
         try {
             const data = await axios.get("/parts", {
@@ -88,7 +97,7 @@ const Parts = (props) => {
 
         }}>
             {modal === "add" && <AddParts/>}
-            {modal === "modify" && <ModifyParts data={modifyParts}/>}
+            {modal === "modify_parts" && <ModifyParts data={modifyParts}/>}
             {modal === "delete" && <DeleteParts data={modifyParts}/>}
             <div style={{marginLeft: "50px", display: "flex", justifyContent: "space-between"}}>
                 <div>
@@ -157,7 +166,7 @@ const Parts = (props) => {
                         return (
                             <TableDiv>
 
-                                <TableSpan>{item.type}</TableSpan>
+                                <TableSpan>{partsTypeChanger(item.type)}</TableSpan>
                                 <TableSpan>{item.name}</TableSpan>
                                 <TableSpan>{item.serial}</TableSpan>
                                 <TableSpan>{item.buy_at[0] + "." + item.buy_at[1] + "." + item.buy_at[2]}</TableSpan>

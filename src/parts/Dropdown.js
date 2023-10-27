@@ -1,6 +1,6 @@
 import './Dropdown.css';
 import {useDispatch} from "react-redux";
-import {inactive, modify} from "../redux/modalSlice";
+import {inactive, modifyParts} from "../redux/modalSlice";
 
 const Dropdown = (props) => {
 
@@ -14,7 +14,7 @@ const Dropdown = (props) => {
                 <li><a href="https://www.naver.com">상세정보</a></li>
                 <hr></hr>
                 <li><button className="modifyButton" onClick={(e) => {
-                    dispatch(modify())
+                    dispatch(modifyParts())
                 }}>수정</button></li>
 
             </ul>
