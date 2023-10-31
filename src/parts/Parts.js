@@ -81,13 +81,18 @@ const Parts = (props) => {
                 }
             });
             console.log(data.data.response);
-            setData(data.data.response);
-        } catch {
+            // setData(data.data.response);
+            return data.data.response;
+        } catch (e) {
             // 오류 발생시 실행
+            console.log(e);
         }
     }
-    useEffect(() => {
-        getData();
+    useEffect( () => {
+        async function fetchData() {
+            setData(await getData());
+        }
+        fetchData();
     }, [])
     return (
         <div onClick={(e) => {
