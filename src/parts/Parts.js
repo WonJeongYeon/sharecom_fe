@@ -70,7 +70,7 @@ const Parts = (props) => {
 
     const getData = async () => {
         try {
-            const data = await axios.get("http://3.27.18.70:9000/parts", {
+            const data = await axios.get("/parts", {
                 params: {
                     type: type,
                     name: name,
@@ -80,6 +80,7 @@ const Parts = (props) => {
                     usedYn: null
                 }
             });
+            console.log(data);
             console.log(data.data.response);
             // setData(data.data.response);
             return data.data.response;
