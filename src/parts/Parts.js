@@ -70,7 +70,7 @@ const Parts = (props) => {
 
     const getData = async () => {
         try {
-            const data = await axios.get("/parts", {
+            const data = await axios.get(process.env.REACT_APP_DB_HOST + "/parts", {
                 params: {
                     type: type,
                     name: name,

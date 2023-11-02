@@ -10,7 +10,7 @@ const AddDesktopFindParts = (props) => {
     const [selectedParts, setSelectedParts] = useState(null);
     const findData = async () => {
         try {
-            const partsData = await axios.get("/parts", {
+            const partsData = await axios.get(process.env.REACT_APP_DB_HOST + "/parts", {
                 params: {
                     type: props.type,
                     name: name,

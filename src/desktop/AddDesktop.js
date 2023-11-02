@@ -69,7 +69,7 @@ const AddParts = (props) => {
     const saveParts = async () => {
 
         try {
-            const data = await axios.post("/desktop",  {
+            const data = await axios.post(process.env.REACT_APP_DB_HOST + "/desktop",  {
                     serial: serial,
                     etc: etc,
                     cpuId: cpuId,
@@ -95,7 +95,7 @@ const AddParts = (props) => {
 
     const findParts = async (type) => {
         try {
-            const partsData = await axios.get("/parts", {
+            const partsData = await axios.get(process.env.REACT_APP_DB_HOST + "/parts", {
                 params: {
                     type: type,
                     name: null,

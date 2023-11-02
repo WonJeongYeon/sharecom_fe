@@ -59,7 +59,7 @@ const ModifyParts = (props) => {
 
     const saveParts = async () => {
         try {
-            const data = await axios.patch("/parts/" + parseData.id,  {
+            const data = await axios.patch(process.env.REACT_APP_DB_HOST + "/parts/" + parseData.id,  {
                     type: type,
                     name: name,
                     serial: serial,

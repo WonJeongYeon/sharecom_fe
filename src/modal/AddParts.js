@@ -59,7 +59,7 @@ const AddParts = (props) => {
             const dateStr = date.getFullYear() +
             '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
             '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) )
-            const data = await axios.post("/parts",  {
+            const data = await axios.post(process.env.REACT_APP_DB_HOST + "/parts",  {
                     type: type,
                     name: name,
                     serial: serial,

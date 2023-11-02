@@ -23,7 +23,7 @@ const Desktop = () => {
     const [customInput, setCustomInput] = useState(false);
     const getData = async () => {
         try {
-            const data = await axios.get("/desktop", {
+            const data = await axios.get(process.env.REACT_APP_DB_HOST + "/desktop", {
                 params: {
                     serial: serial,
                     usedYn: usedYn
@@ -40,7 +40,7 @@ const Desktop = () => {
             alert("검색할 본체를 선택해주세요.")
         } else {
             try {
-                const data = await axios.get(`/desktop/${serial}`);
+                const data = await axios.get(process.env.REACT_APP_DB_HOST + `/desktop/${serial}`);
                 setDetailData(data.data.response);
             } catch {
                 alert("입력하신 본체가 존재하지 않습니다.")

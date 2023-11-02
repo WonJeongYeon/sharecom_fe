@@ -50,7 +50,7 @@ const DeleteParts = (props) => {
 
     const deleteParts = async () => {
         try {
-            const data = await axios.delete("/parts/" + parseData.id);
+            const data = await axios.delete(process.env.REACT_APP_DB_HOST + "/parts/" + parseData.id);
             console.log(data.data.response);
             alert("삭제되었습니다.")
             dispatch(close());

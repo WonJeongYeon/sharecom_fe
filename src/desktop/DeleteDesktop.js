@@ -51,7 +51,7 @@ const DeleteDesktop = (props) => {
 
     const deleteDesktop = async () => {
         try {
-            const data = await axios.delete("/desktop/" + parseData.id);
+            const data = await axios.delete(process.env.REACT_APP_DB_HOST + "/desktop/" + parseData.id);
             console.log(data.data.response);
             alert("삭제되었습니다.")
             dispatch(close());

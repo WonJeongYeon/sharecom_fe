@@ -58,7 +58,7 @@ const ModifyDesktop = (props) => {
 
     const findParts = async (type) => {
         try {
-            const partsData = await axios.get("/parts", {
+            const partsData = await axios.get(process.env.REACT_APP_DB_HOST + "/parts", {
                 params: {
                     type: type,
                     name: null,
@@ -79,7 +79,7 @@ const ModifyDesktop = (props) => {
 
     const saveModifyDesktop = async () => {
         try {
-            await axios.patch("/desktop/" + props.id, {
+            await axios.patch(process.env.REACT_APP_DB_HOST + "/desktop/" + props.id, {
                 reason: (props.usedYn? "(AS)" : "") + reason,
                 etc: null,
                 partsType: [props.type],
