@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import {Link} from "react-router-dom";
-import {useState} from "react";
+import {Link, useLocation} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 const NavList = styled.div`
   list-style: none;
@@ -52,15 +52,19 @@ const NoDecoratedLink = styled.link`
 
 const Nav = (props) => {
     const [menu, setMenu] = useState("parts");
+    const location = useLocation();
+    useEffect(() => {
+        console.log(location.pathname);
+    }, [ location ])
     return (
         <NavList>
-            <Link to={"/"} style={{textDecoration: "none"}} onClick={() => {setMenu("parts")}}>
-                {menu === "parts" ? <NavItemSelected>부품관리</NavItemSelected> : <NavItem>부품관리</NavItem>}</Link>
-            <Link to={"/desktop"} style={{textDecoration: "none"}} onClick={() => {setMenu("desktop")}}>
-                {menu === "desktop" ? <NavItemSelected>PC관리</NavItemSelected>: <NavItem>PC관리</NavItem> }
+            <Link to={"/"} style={{textDecoration: "none"}}>
+                {location.pathname === "/" ? <NavItemSelected>부품관리</NavItemSelected> : <NavItem>부품관리</NavItem>}</Link>
+            <Link to={"/desktop"} style={{textDecoration: "none"}}>
+                {location.pathname === "/desktop" ? <NavItemSelected>PC관리</NavItemSelected>: <NavItem>PC관리</NavItem> }
                 </Link>
-            <Link to={"/customer"} style={{textDecoration: "none"}} onClick={() => {setMenu("customer")}}>
-                {menu === "customer" ? <NavItemSelected>고객관리</NavItemSelected>: <NavItem>고객관리</NavItem> }
+            <Link to={"/customer"} style={{textDecoration: "none"}}>
+                {location.pathname === "/customer" ? <NavItemSelected>고객관리</NavItemSelected>: <NavItem>고객관리</NavItem> }
             </Link>
             <NavItem>종합관리</NavItem>
         </NavList>

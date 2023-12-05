@@ -11,7 +11,7 @@ import {persistStore} from "redux-persist";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Parts from "./parts/Parts";
 import Desktop from "./desktop/Desktop";
-import Customer from "./Customer";
+import Customer from "./customer/Customer";
 
 export let persistor = persistStore(store);
 

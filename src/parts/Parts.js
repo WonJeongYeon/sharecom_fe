@@ -82,7 +82,7 @@ const Parts = (props) => {
             });
             console.log(data);
             console.log(data.data.response);
-            // setData(data.data.response);
+            setData(data.data.response);
             return data.data.response;
         } catch (e) {
             // 오류 발생시 실행
@@ -90,10 +90,11 @@ const Parts = (props) => {
         }
     }
     useEffect( () => {
-        async function fetchData() {
-            setData(await getData());
-        }
-        fetchData();
+        // async function fetchData() {
+        //     setData(await getData());
+        // }
+        // fetchData();
+        getData();
     }, [])
     return (
         <div onClick={(e) => {
