@@ -66,6 +66,8 @@ const AddParts = (props) => {
 
     const [etc, setEtc] = useState("");
 
+    const [completed, setCompleted] = useState(false);
+
     const getPcData = async () => {
         try {
             const data = await axios.get(process.env.REACT_APP_DB_HOST + "/desktop", {
@@ -125,6 +127,8 @@ const AddParts = (props) => {
 
     const saveRentalData = async () => {
 
+        let complete = true;
+        let resultArr = [];
         const startDate = startYear + "-"
             + (startMonth < 10 ? "0" + startMonth : startMonth) + "-"
             + (startDay < 10 ? "0" + startDay : startDay)
@@ -142,13 +146,25 @@ const AddParts = (props) => {
                     etc: etc,
                     pcArr: pcArr
                 });
-                let response = data.data.response;
-                console.log(response);
+                resultArr = data.data.response;
+                if (complete && completed) {
+                    //대여 로그 API 호출
+                    for (let i = 0; i<resultArr.length; i++) {
+                        const update = await axios.post(process.env.REACT_APP_DB_HOST + "/rental/update", {
+                            type: "RENTAL",
+                            rentalId: resultArr[i]
+                        })
+                        console.log(update.data.response);
+                    }
+
+                }
                 dispatch(close());
                 window.location.reload();
             } catch (e) {
+                complete = false;
                 alert("저장에 실패했습니다. 입력하지 않은 부분이 있는지 확인해보세요.");
             }
+
         }
 
     }
@@ -184,6 +200,7 @@ const AddParts = (props) => {
                                 let arr = [];
                                 if (selected.length == 1) {
                                     arr.push(e.target.selectedOptions[0].value)
+                                    setPcArr(arr);
                                     return;
                                 }
                                 for (let i = 0; i < selected.length; i++) {
@@ -267,6 +284,14 @@ const AddParts = (props) => {
                 <div>
                     <label>비고</label>
                     <input type="text" placeholder={"비고"} onInput={(e) => {setEtc(e.target.value)}}/>
+                </div>
+                <div>
+                    <label>이미 실제 대여 처리가 완료되었나요?</label>
+                    <input type={"checkbox"} onChange={(e) => {
+                        console.log(e.target.checked)
+                        setCompleted(e.target.checked)}}/>
+                    <br/>
+                    <label style={{fontSize:"10px"}}>여러 대의 PC 중 일부만 완료되었을 경우, 대여 처리는 수동으로 진행해 주세요.</label>
                 </div>
                 <button onClick={saveRentalData}>저장하기</button>
             </ModalContainer>

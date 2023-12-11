@@ -67,21 +67,13 @@ const AddParts = (props) => {
                     etc: etc
             });
             console.log(data.data.response);
-        } catch {
-            console.log("eee");
+            dispatch(close());
+            window.location.reload();
+        } catch (e) {
+            alert('저장에 실패했습니다. 관리자에게 문의 바랍니다.');
+            console.log(e);
         }
     }
-
-    // const partsType = {
-    //     CPU: "CPU",
-    //     메인보드: "MAIN_BOARD",
-    //     RAM: "RAM",
-    //     GPU: "GPU",
-    //     SSD: "SSD",
-    //     POWER: "POWER",
-    //     COOLER: "COOLER"
-    // }
-
 
     return (
         <Modal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
@@ -117,7 +109,6 @@ const AddParts = (props) => {
                             showIcon
                             selected={date}
                             onChange={date => {setDate(date)}}
-
                         />
 
                     </div>

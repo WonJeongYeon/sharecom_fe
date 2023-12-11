@@ -12,6 +12,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Parts from "./parts/Parts";
 import Desktop from "./desktop/Desktop";
 import Customer from "./customer/Customer";
+import All from "./all/All";
 
 export let persistor = persistStore(store);
 
@@ -25,6 +26,7 @@ root.render(
                         <Route path="/" element={<Parts />}/>
                         <Route path="desktop" element={<Desktop/>}/>
                         <Route path="customer" element={<Customer/>}/>
+                        <Route path="all" element={<All/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

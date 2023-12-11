@@ -20,6 +20,9 @@ export const modalSlice = createSlice({
         modifyDesktop: (state) => {
             state.value = "modify_desktop";
         },
+        deletedDesktop: (state) => {
+            state.value = "deleted_desktop";
+        },
         rentalInput: (state, customer) => {
             state.value = "rental_input";
             const data = JSON.parse(customer.payload);
@@ -29,12 +32,15 @@ export const modalSlice = createSlice({
         inactive: (state) => {
             state.value = "delete";
         },
+        customerDetail: (state) => {
+            state.value = "customer_detail";
+        },
         close: (state) => {
             state.value = "";
         }
     }
 })
 
-export const { add, detail, modifyParts, modifyDesktop, rentalInput, inactive, close } = modalSlice.actions;
+export const { add, detail, modifyParts, modifyDesktop, rentalInput, customerDetail, inactive, close } = modalSlice.actions;
 
 export default modalSlice.reducer;

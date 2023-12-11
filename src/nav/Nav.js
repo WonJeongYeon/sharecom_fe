@@ -66,7 +66,9 @@ const Nav = (props) => {
             <Link to={"/customer"} style={{textDecoration: "none"}}>
                 {location.pathname === "/customer" ? <NavItemSelected>고객관리</NavItemSelected>: <NavItem>고객관리</NavItem> }
             </Link>
-            <NavItem>종합관리</NavItem>
+            <Link to={"/all"} style={{textDecoration: "none"}}>
+                {location.pathname === "/all" ? <NavItemSelected>종합관리</NavItemSelected>: <NavItem>종합관리</NavItem> }
+            </Link>
         </NavList>
     )
 

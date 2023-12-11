@@ -6,6 +6,9 @@ import AddDesktop from "./AddDesktop";
 import {add, inactive} from "../redux/modalSlice";
 import ModifyDesktop from "./ModifyDesktop";
 import DeleteDesktop from "./DeleteDesktop";
+import TableContainer from "../table/TableContainer";
+import TableHeader from "../table/TableHeader";
+import TableSpan from "../table/TableSpan";
 
 const Desktop = () => {
 
@@ -19,6 +22,8 @@ const Desktop = () => {
     const dispatch = useDispatch();
 
     const [type, setType] = useState("");
+
+    const [logData, setLogData] = useState([]);
 
     const [customInput, setCustomInput] = useState(false);
     const getData = async () => {
@@ -35,6 +40,7 @@ const Desktop = () => {
             // 오류 발생시 실행
         }
     }
+
     const getDetailData = async () => {
         if (serial === "" || serial === null) {
             alert("검색할 본체를 선택해주세요.")
@@ -42,6 +48,8 @@ const Desktop = () => {
             try {
                 const data = await axios.get(process.env.REACT_APP_DB_HOST + `/desktop/${serial}`);
                 setDetailData(data.data.response);
+                const getLogData = await axios.get(process.env.REACT_APP_DB_HOST + `/desktop/logs/${serial}`)
+                setLogData(getLogData.data.response);
             } catch {
                 alert("입력하신 본체가 존재하지 않습니다.")
             }
@@ -50,6 +58,24 @@ const Desktop = () => {
     useEffect(() => {
         getData();
     }, [usedYn])
+
+    const convertLocalDateTime = (date) => {
+        return date[0] +
+            '-' + ( (date[1]) < 10 ? "0" + (date[1]) : (date[1]) )+
+            '-' + ( (date[2]) < 10 ? "0" + (date[2]) : (date[2]) ) + " " +
+            (date[3] < 10? "0" : "") + date[3] + ":" +
+            (date[4] < 10? "0" : "") + date[4] + ":" +
+            (date[5] < 10? "0" : "") + date[5]
+    }
+
+    const convertLogType = (type) => {
+        switch (type) {
+            case 'PARTS_CHANGED': return '부품 변경';
+            case 'UPDATE_DESKTOP': return '본체정보 변경';
+            case 'NEW_DESKTOP': return '새 PC 생성'
+            default: return 'PC 삭제';
+        }
+    }
 
     return (
         <div style={{marginLeft: "55px"}}>
@@ -67,7 +93,7 @@ const Desktop = () => {
                                                    type === 'POWER' ? detailData.power :
                                                        detailData.cooler)}
                 />}
-            {modal === "delete" && <DeleteDesktop data={detailData===null? null : JSON.stringify(detailData)}/>}
+            {modal === "delete" && <DeleteDesktop data={detailData === null ? null : JSON.stringify(detailData)}/>}
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div>
                     <div>
@@ -116,6 +142,11 @@ const Desktop = () => {
                     }}>
                         본체 등록
                     </button>
+                    <button type="button" onClick={() => {
+                        dispatch(add())
+                    }}>
+                        삭제된 본체 목록
+                    </button>
                 </div>
             </div>
 
@@ -125,7 +156,12 @@ const Desktop = () => {
                         <div>본체 {detailData.serial}</div>
                         <div>현재 대여 여부 : {detailData.usedYn.toString()}</div>
                         {detailData.usedYn && <div>대여일자 : {detailData.usedAt}</div>}
-                        <div><button onClick={() => {dispatch(inactive())}}>삭제하기</button></div>
+                        <div>
+                            <button onClick={() => {
+                                dispatch(inactive())
+                            }}>삭제하기
+                            </button>
+                        </div>
                         <div style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridGap: "1rem"}}>
                             <DesktopParts type={"CPU"} data={detailData.cpu} setType={setType}/>
                             <DesktopParts type={"GPU"} data={detailData.gpu} setType={setType}/>
@@ -138,6 +174,27 @@ const Desktop = () => {
                     </div>
                 }
             </div>
+            <h3>관리 내역</h3>
+            {
+                <TableContainer>
+                    <TableHeader>관리 종류</TableHeader>
+                    <TableHeader>사유</TableHeader>
+                    <TableHeader>내용</TableHeader>
+                    <TableHeader>처리일시</TableHeader>
+                    {
+                        logData.map((item, index) => {
+                            return (
+                                <tr>
+                                    <TableSpan>{convertLogType(item.type)}</TableSpan>
+                                    <TableSpan>{item.reason}</TableSpan>
+                                    <TableSpan>{item.content}</TableSpan>
+                                    <TableSpan>{convertLocalDateTime(item.insertAt)}</TableSpan>
+                                </tr>
+                            )
+                        })
+                    }
+                </TableContainer>
+            }
         </div>
     )
 }
