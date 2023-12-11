@@ -7,6 +7,9 @@ import {useDispatch, useSelector} from "react-redux";
 import AddParts from "../modal/AddParts";
 import AddCustomer from "./AddCustomer";
 import Rental from "./Rental";
+import CustomerDropdown from "./CustomerDropdown";
+import ModifyParts from "../modal/ModifyParts";
+import DetailCustomer from "./DetailCustomer";
 
 
 const Container = styled.table`
@@ -49,6 +52,10 @@ const Customer = () => {
     const [address, setAddress] = useState(null);
     const [etc, setEtc] = useState(null);
 
+    const [dropdown, setDropdown] = useState(0);
+
+    const [detailCustomerId, setDetailCustomerId] = useState(0);
+
     const dispatch = useDispatch();
     const modal = useSelector((state) => state.modal.value);
 
@@ -80,9 +87,14 @@ const Customer = () => {
     }, [])
 
     return (
-        <div>
+        <div onClick={(e) => {
+            if (!e.target.classList.contains("dropdown")) {
+                setDropdown(0);
+            }
+        }}>
             {modal === "add" && <AddCustomer/>}
             {modal === "rental_input" && <Rental/>}
+            {modal === "customer_detail" && <DetailCustomer data={detailCustomerId}/>}
             <div style={{marginLeft: "60px", display: "flex", justifyContent: "space-between"}}>
             고객 검색
                 <input type={"text"} placeholder={"이름"}
@@ -135,12 +147,12 @@ const Customer = () => {
                                 <TableSpan>
 
                                     <MoreButton  onClick={(e) => {
-                                        // console.log(e.target.className);
-                                        // if (dropdown === item.id) {
-                                        //     setDropdown(0);
-                                        // } else {
-                                        //     setModifyParts(JSON.stringify(item));
-                                        //     setDropdown(item.id)}
+                                        console.log(e.target.className);
+                                        if (dropdown === item.id) {
+                                            setDropdown(0);
+                                        } else {
+                                            setDetailCustomerId(item.id);
+                                            setDropdown(item.id)}
                                     }}>
                                         <svg className="dropdown" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round"
                                              strokeMiterlimit="2" viewBox="0 0 24 24"
@@ -152,7 +164,7 @@ const Customer = () => {
                                     </MoreButton>
 
                                 </TableSpan>
-                                {/*{dropdown === item.id && <Dropdown/>}*/}
+                                {dropdown === item.id && <CustomerDropdown/>}
                             </TableDiv>
                         );
                     })
