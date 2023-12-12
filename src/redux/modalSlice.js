@@ -41,6 +41,6 @@ export const modalSlice = createSlice({
     }
 })
 
-export const { add, detail, modifyParts, modifyDesktop, rentalInput, customerDetail, inactive, close } = modalSlice.actions;
+export const { add, detail, modifyParts, modifyDesktop, deletedDesktop, rentalInput, customerDetail, inactive, close } = modalSlice.actions;
 
 export default modalSlice.reducer;

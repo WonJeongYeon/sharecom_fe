@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {useDispatch} from "react-redux";
-import {close} from "../redux/modalSlice";
+import {close, rentalInput} from "../redux/modalSlice";
 import {useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
 
@@ -141,7 +141,10 @@ const DetailCustomer = (props) => {
                         : <div>대여 기록이 없습니다.</div>
                     }
 
-                    <button type="button" onClick={() => {}}>저장하기</button>
+                    <button type="button" onClick={() => {
+                        const reduxData = {id: props.data, name: data.name};
+                        dispatch(rentalInput(JSON.stringify(reduxData)));
+                        }}>대여정보 추가하기</button>
                 </div>
             </ModalContainer>
         </Modal>

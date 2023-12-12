@@ -3,12 +3,13 @@ import {useEffect, useState} from "react";
 import DesktopParts from "./DesktopParts";
 import {useDispatch, useSelector} from "react-redux";
 import AddDesktop from "./AddDesktop";
-import {add, inactive} from "../redux/modalSlice";
+import {add, deletedDesktop, inactive} from "../redux/modalSlice";
 import ModifyDesktop from "./ModifyDesktop";
 import DeleteDesktop from "./DeleteDesktop";
 import TableContainer from "../table/TableContainer";
 import TableHeader from "../table/TableHeader";
 import TableSpan from "../table/TableSpan";
+import DeletedDesktop from "./DeletedDesktop";
 
 const Desktop = () => {
 
@@ -94,6 +95,7 @@ const Desktop = () => {
                                                        detailData.cooler)}
                 />}
             {modal === "delete" && <DeleteDesktop data={detailData === null ? null : JSON.stringify(detailData)}/>}
+            {modal === "deleted_desktop" && <DeletedDesktop/>}
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div>
                     <div>
@@ -143,7 +145,7 @@ const Desktop = () => {
                         본체 등록
                     </button>
                     <button type="button" onClick={() => {
-                        dispatch(add())
+                        dispatch(deletedDesktop())
                     }}>
                         삭제된 본체 목록
                     </button>

@@ -3,10 +3,18 @@ import {useEffect, useState} from "react";
 import TableContainer from "../table/TableContainer";
 import TableHeader from "../table/TableHeader";
 import TableSpan from "../table/TableSpan";
+import {rentalInput} from "../redux/modalSlice";
+import {useDispatch, useSelector} from "react-redux";
+import Rental from "../customer/Rental";
+import MoreButton from "../table/MoreButton";
+import CustomerDropdown from "../customer/CustomerDropdown";
 
 const All = () => {
 
     const [data, setData] = useState([]);
+
+    const [dropdown, setDropdown] = useState(0);
+    const [desktopId,setDesktopId] = useState(0);
     const getData = async () => {
         try {
             const data = await axios.get(process.env.REACT_APP_DB_HOST + `/all`);
@@ -19,6 +27,9 @@ const All = () => {
     useEffect( () => {
         getData();
     }, [])
+
+    const dispatch = useDispatch();
+    const modal = useSelector((state) => state.modal.value);
 
     const convertTimestamp = (timestamp) => {
         const date = new Date(timestamp);
@@ -37,7 +48,19 @@ const All = () => {
         }
     }
     return (
-        <div style={{marginLeft: "50px", display: "flex", justifyContent: "space-between"}}>
+        <div style={{marginLeft: "50px", display: "flex", justifyContent: "space-between"}} onClick={(e) => {
+            if (!e.target.classList.contains("dropdown")) {
+                setDropdown(0);
+            }
+        }}>
+
+
+            {modal === "rental_input" && <Rental/>}
+            <div>
+                <button type="button" onClick={() => {
+                    const reduxData = {id: 0, name: ''};
+                    dispatch(rentalInput(JSON.stringify(reduxData)));
+                }}>대여정보 추가하기</button>
             <TableContainer>
                 <TableHeader>대여여부</TableHeader>
                 <TableHeader>본체번호</TableHeader>
@@ -58,12 +81,28 @@ const All = () => {
                         <TableSpan>{convertTimestamp(item.end_date)}</TableSpan>
                         <TableSpan>{item.etc}</TableSpan>
                         <TableSpan>{convertState(item.type)}</TableSpan>
+                        <TableSpan><MoreButton  onClick={(e) => {
+                            console.log(e.target.className);
+                            if (dropdown === item.desktopId) {
+                                setDropdown(0);
+                            } else {
+                                setDesktopId(item.desktopId);
+                                setDropdown(item.desktopId)}
+                        }}>
+                            <svg className="dropdown" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round"
+                                 strokeMiterlimit="2" viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m16.5 11.995c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25zm-6.75 0c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25zm-6.75 0c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25z"/>
+                            </svg></MoreButton></TableSpan>
+                        {dropdown === item.desktopId && <CustomerDropdown/>}
                     </tr>
                 )
             })
 
         }
             </TableContainer>
+            </div>
         </div>
     )
 }
