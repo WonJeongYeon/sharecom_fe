@@ -6,6 +6,14 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import ModalHeader from "../common/modal/ModalHeader";
+import CloseBtn from "../common/modal/CloseBtn";
+import InputLabel from "../common/modal/InputLabel";
+import InputText from "../common/modal/InputText";
+import InputArea from "../common/modal/InputArea";
+import InputSelect from "../common/modal/InputSelect";
+import InputDateSelect from "../common/modal/InputDateSelect";
+import RoundButton from "../common/modal/RoundButton";
 
 const Modal = styled.div`
     position: fixed;
@@ -29,7 +37,7 @@ const ModalContainer = styled.div`
     left: 50%;
 
     width: 350px;
-    height: 500px;
+    height: 600px;
 
     padding: 40px;
 
@@ -46,24 +54,56 @@ const ModalContainer = styled.div`
 
 const AddParts = (props) => {
     const dispatch = useDispatch();
-    const [type, setType] = useState();
+    const [type, setType] = useState(null);
     const [name, setName] = useState(null);
     const [serial, setSerial] = useState(null);
-    const [buy_at, setBuyAt] = useState(null);
-    const [date, setDate] = useState(new Date());
-    const [etc, setEtc] = useState();
+    const [etc, setEtc] = useState('');
+
+    const [buyYear, setBuyYear] = useState(2023);
+    const [buyMonth, setBuyMonth] = useState(1);
+    const [buyDay, setBuyDay] = useState(1);
+
+    const [direct, setDirect] = useState(false);
+    const [preset, setPreset] = useState(null);
+
+    const years = () => {
+        let arr = [];
+        for (let i = 2023; i < 2030; i++) {
+            arr.push(i);
+        }
+        return arr;
+    }
+
+    const months = () => {
+        let arr = [];
+        for (let i = 1; i < 13; i++) {
+            arr.push(i);
+        }
+        return arr;
+    }
+
+    const days = () => {
+        let arr = [];
+        for (let i = 1; i < 32; i++) {
+            arr.push(i);
+        }
+        return arr;
+    }
 
     const saveParts = async () => {
         try {
             //dayjs 라이브러리를 씁시다 Format 설정이 가능함 이따구로 안하고
-            const dateStr = date.getFullYear() +
-            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
-            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) )
+            // const dateStr = date.getFullYear() +
+            // '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+            // '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) )
+            const buyDate = buyYear + "-"
+                + (buyMonth < 10 ? "0" + buyMonth : buyMonth) + "-"
+                + (buyDay < 10 ? "0" + buyDay : buyDay)
             const data = await axios.post(process.env.REACT_APP_DB_HOST + "/parts",  {
                     type: type,
-                    name: name,
+                    name: direct? name : preset,
                     serial: serial,
-                    buyAt: dateStr,
+                    buyAt: buyDate,
                     etc: etc
             });
             console.log(data.data.response);
@@ -80,9 +120,20 @@ const AddParts = (props) => {
             <ModalContainer className={"modal_container"}>
 
                 <div>
-                    <h2>부품 추가</h2>
-                    <div>
-                        <select name={"parts"} onChange={(e) => {setType(e.target.value)}} >
+                    <ModalHeader>
+                        부품 추가
+                        <CloseBtn onClick={() => {dispatch(close())}}>
+                            <svg clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2"
+                                 viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"/>
+                            </svg>
+                        </CloseBtn>
+                    </ModalHeader>
+                    <InputArea>
+                        <InputLabel><span style={{color: 'red'}}>* </span>부품종류 선택</InputLabel>
+                        <InputSelect name={"parts"} onChange={(e) => {setType(e.target.value)}} >
                             <option value="" selected={true}>부품종류</option>
                             <option value="CPU">CPU</option>
                             <option value="GPU">GPU</option>
@@ -91,33 +142,86 @@ const AddParts = (props) => {
                             <option value="SSD">SSD</option>
                             <option value="POWER">파워</option>
                             <option value="COOLER">쿨러</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>부품명</label>
-                        <input type={"text"} placeholder={"부품명"}
-                               onInput={(e) => {setName(e.target.value)}}/>
-                    </div>
-                    <div>
-                        <label>일련번호</label>
-                        <input type={"text"} placeholder={"일련번호"}
-                               onInput={(e) => {setSerial(e.target.value)}}/>
-                    </div>
-                    <div>
-                        <label>구입일자</label>
-                        <DatePicker
-                            showIcon
-                            selected={date}
-                            onChange={date => {setDate(date)}}
-                        />
+                        </InputSelect>
+                    </InputArea>
+                    <InputArea>
+                        <InputLabel ><span style={{color: 'red'}}>* </span>부품명</InputLabel>
+                        <div style={{textAlign: 'right'}}>
+                        <div style={{display: 'flex', flexDirection: 'row', gap: '10px'}}>
+                            <InputText disabled={!direct} type={"text"} value={direct? null : preset==='선택하세요.'? null : preset} placeholder={"부품명을 입력해주세요."}
+                                       onInput={(e) => {setName(e.target.value)}}/>
+                            <InputSelect disabled={direct} onChange={(e) => {
+                                setPreset(e.target.value);
+                            }}>
+                                <option value={null}>선택하세요.</option>
+                                <option value="i7-7700HQ">i7-7700HQ</option>
+                            </InputSelect>
+                        </div>
+                        <span><label>직접 입력</label>
+                        <input type="checkbox" onChange={(e) => {
+                            setDirect(e.target.checked)
+                            setName('');
+                        }}/></span>
+                        </div>
 
-                    </div>
-                    <div>
-                        <label>비고</label>
-                        <input type={"text"} placeholder={"ETC"}
+                    </InputArea>
+                    <InputArea>
+                        <InputLabel><span style={{color: 'red'}}>* </span>일련번호</InputLabel>
+                        <InputText type={"text"} placeholder={"일련번호를 입력해주세요. (예시) M220W39uK229"}
+                               onInput={(e) => {setSerial(e.target.value)}}/>
+                    </InputArea>
+                    <InputArea>
+                        <InputLabel><span style={{color: 'red'}}>* </span>구입일자 </InputLabel>
+                        {/*<DatePicker*/}
+                        {/*    showIcon*/}
+                        {/*    selected={date}*/}
+                        {/*    onChange={date => {setDate(date)}}*/}
+                        {/*/>*/}
+                        <div>
+                        <InputDateSelect onChange={(e) => {
+                            // console.log(e.target.value)
+                            setBuyYear(e.target.value)
+                        }}>
+                            {years().map((item, index) => {
+                                return (
+                                    <option value={item}>{item}</option>
+                                )
+                            })}
+                        </InputDateSelect>
+                            <span> - </span>
+                        <InputDateSelect onChange={(e) => {
+                            setBuyMonth(e.target.value)
+                        }}>
+                            {months().map((item, index) => {
+                                return (
+                                    <option value={item}>{item}</option>
+                                )
+                            })}
+                        </InputDateSelect>
+                            <span> - </span>
+                        <InputDateSelect onChange={(e) => {
+                            setBuyDay(e.target.value)
+                        }}>
+                            {days().map((item, index) => {
+                                return (
+                                    <option value={item}>{item}</option>
+                                )
+                            })}
+                        </InputDateSelect>
+
+
+                        </div>
+                    </InputArea>
+                    <InputArea>
+                        <InputLabel>비고</InputLabel>
+                        <InputText type={"text"} placeholder={"기타사항을 입력해주세요."}
                                onInput={(e) => {setEtc(e.target.value)}}/>
+                    </InputArea>
+
+                    <div style={{textAlign: 'right', fontSize: '12px'}}>
+                    <span style={{color: 'red'}}>* </span><span style={{color: 'grey'}}> 필수 입력사항</span><br/>
                     </div>
-                    <button type="button" onClick={() => {saveParts()}}>저장하기</button>
+                    <RoundButton disabled={type === null || (direct? (name === null || name === '') : (preset === null || preset === '선택하세요.' || preset === '')) || serial === null} type="button" onClick={() => {saveParts()}}>저장하기</RoundButton>
                 </div>
             </ModalContainer>
         </Modal>

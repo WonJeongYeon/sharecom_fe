@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import parts from "./parts.json";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios, {get} from "axios";
 import AddParts from "../modal/AddParts";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,6 +10,7 @@ import DatePicker from "react-datepicker";
 import Dropdown from "./Dropdown";
 import ModifyParts from "../modal/ModifyParts";
 import DeleteParts from "../modal/DeleteParts";
+import DetailParts from "../modal/DetailParts";
 
 const Container = styled.table`
 
@@ -27,6 +28,7 @@ const TableHeader = styled.th`
   padding: 10px 20px;
   width: auto;
 
+  cursor: pointer;
 `;
 
 const TableSpan = styled.td`
@@ -50,7 +52,8 @@ const Parts = (props) => {
     const [etc, setEtc] = useState(null);
 
     const [date, setDate] = useState(new Date());
-    const [data, setData] = useState([]);
+    let [data, setData] = useState([]);
+    const [order, setOrder] = useState('');
 
     const [modifyParts, setModifyParts] = useState("{}");
 
@@ -58,6 +61,8 @@ const Parts = (props) => {
     const dispatch = useDispatch();
 
     const [dropdown, setDropdown] = useState(0);
+
+    const moreButtonRef = useRef();
 
     const partsTypeChanger = (type) => {
         switch (type) {
@@ -82,12 +87,28 @@ const Parts = (props) => {
             });
             console.log(data);
             console.log(data.data.response);
-            setData(data.data.response);
+            let arr = data.data.response;
+            // arr.sort((a, b) => a.type.localeCompare(b.type))
+            setData(arr);
             return data.data.response;
         } catch (e) {
             // 오류 발생시 실행
             console.log(e);
         }
+    }
+    const sortParts = (type) => {
+            let arr = data;
+            if (order === type) {
+                arr.sort((a, b) =>
+                        b[type].localeCompare(a[type])
+                );
+                setOrder(`${type}_desc`);
+            } else {
+                arr.sort((a, b) => a[type].localeCompare(b[type]))
+                setOrder(type);
+            }
+            setData([...arr]);
+
     }
     useEffect( () => {
         // async function fetchData() {
@@ -104,6 +125,7 @@ const Parts = (props) => {
 
         }}>
             {modal === "add" && <AddParts/>}
+            {modal === "detail_parts" && <DetailParts data={modifyParts}/>}
             {modal === "modify_parts" && <ModifyParts data={modifyParts}/>}
             {modal === "delete" && <DeleteParts data={modifyParts}/>}
             <div style={{marginLeft: "50px", display: "flex", justifyContent: "space-between"}}>
@@ -160,13 +182,49 @@ const Parts = (props) => {
             <Container style={{marginLeft: "50px"}}>
 
                 {/*<TableDiv>*/}
-                <TableHeader>부품종류</TableHeader>
-                <TableHeader>부품명</TableHeader>
-                <TableHeader>일련번호</TableHeader>
-                <TableHeader>구입일자</TableHeader>
-                <TableHeader>사용여부</TableHeader>
+                <TableHeader onClick={() => {
+                    sortParts('type');
+                }}>부품종류{order === 'type' && <span style={{color: "blue"}}>↓</span>}
+                    {order === 'type_desc' && <span style={{color: "red"}}>↑</span>}
+                </TableHeader>
+                <TableHeader onClick={() => {
+                    sortParts('name');
+                }}>부품명{order === 'name' && <span style={{color: "blue"}}>↓</span>}
+                    {order === 'name_desc' && <span style={{color: "red"}}>↑</span>}</TableHeader>
+                <TableHeader onClick={() => {
+                    sortParts('serial')
+                }}>일련번호{order === 'serial' && <span style={{color: "blue"}}>↓</span>}
+                    {order === 'serial_desc' && <span style={{color: "red"}}>↑</span>}</TableHeader>
+                <TableHeader onClick={() => {
+                    let arr = data;
+                    if (order === 'buyAt') {
+                        arr.sort((a, b) =>
+                            new Date(b.buy_at) - new Date(a.buy_at)
+                        );
+                        setOrder(`buyAt_desc`);
+                    } else {
+                        arr.sort((a, b) => new Date(a.buy_at) - new Date(b.buy_at))
+                        setOrder('buyAt');
+                    }
+                    setData([...arr]);
+                }}>구입일자{order === 'buyAt' && <span style={{color: "blue"}}>↓</span>}
+                    {order === 'buyAt_desc' && <span style={{color: "red"}}>↑</span>}</TableHeader>
+                <TableHeader onClick={() => {
+                    let arr = data;
+                    if (order === 'usedYn') {
+                        arr.sort((a, b) =>
+                            b.used_yn - a.used_yn
+                        );
+                        setOrder(`usedYn_desc`);
+                    } else {
+                        arr.sort((a, b) => a.used_yn - b.used_yn);
+                        setOrder('usedYn');
+                    }
+                    setData([...arr]);
+                }}>사용여부{order === 'usedYn' && <span style={{color: "blue"}}>↓</span>}
+                    {order === 'usedYn_desc' && <span style={{color: "red"}}>↑</span>}</TableHeader>
                 <TableHeader>기타사항</TableHeader>
-                <TableHeader></TableHeader>
+                <TableHeader ref={moreButtonRef}></TableHeader>
                 {/*</TableDiv>*/}
                 {
                     data.map((item, index) => {
@@ -188,7 +246,10 @@ const Parts = (props) => {
                                         } else {
                                             setModifyParts(JSON.stringify(item));
                                             setDropdown(item.id)}
+                                        console.log(e.target.getBoundingClientRect())
+                                        console.log(moreButtonRef.current.getBoundingClientRect());
                                     }}>
+                                        {dropdown === item.id && <Dropdown point={moreButtonRef.current.getBoundingClientRect().left}/>}
                                         <svg className="dropdown" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round"
                                              strokeMiterlimit="2" viewBox="0 0 24 24"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -196,10 +257,11 @@ const Parts = (props) => {
                                                 d="m16.5 11.995c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25zm-6.75 0c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25zm-6.75 0c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25z"/>
                                         </svg>
 
+
                                     </MoreButton>
 
                                 </TableSpan>
-                                {dropdown === item.id && <Dropdown/>}
+
                             </TableDiv>
                         );
                     })
