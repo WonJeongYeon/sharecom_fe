@@ -252,7 +252,7 @@ const Parts = (props) => {
             <Container style={{marginLeft: "50px"}}>
 
                 {/*<TableDiv>*/}
-                <TableHeader width={"60px"} onClick={() => {
+                <TableHeader width={"70px"} onClick={() => {
                     sortParts('type');
                 }}>부품종류{order === 'type' && <span style={{color: "blue"}}>↓</span>}
                     {order === 'type_desc' && <span style={{color: "red"}}>↑</span>}
@@ -279,7 +279,7 @@ const Parts = (props) => {
                     setData([...arr]);
                 }}>구입일자{order === 'buyAt' && <span style={{color: "blue"}}>↓</span>}
                     {order === 'buyAt_desc' && <span style={{color: "red"}}>↑</span>}</TableHeader>
-                <TableHeader width={"60px"} onClick={() => {
+                <TableHeader width={"70px"} onClick={() => {
                     let arr = data;
                     if (order === 'usedYn') {
                         arr.sort((a, b) =>
