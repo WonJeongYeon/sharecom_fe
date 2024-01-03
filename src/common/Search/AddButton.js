@@ -12,6 +12,9 @@ const AddButton = styled.button`
     outline: none;
     width: auto;
     height: 40px;
+    &:hover {
+        background-color: #efefef;
+    }
 `;
 
 export default AddButton;
