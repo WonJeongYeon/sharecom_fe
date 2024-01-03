@@ -154,12 +154,12 @@ const AddParts = (props) => {
                                 setPreset(e.target.value);
                             }}>
                                 <option value={null}>선택하세요.</option>
-                                {(type==="CPU" || type===null) && <option value="인텔 코어i3-12세대 12100F">인텔 코어i3-12세대 12100F</option>}
-                                {(type==="RAM" || type===null) && <option value="삼성전자 DDR4-3200 16GB">삼성전자 DDR4-3200 16GB</option>}
-                                {(type==="SSD" || type===null) && <option value="SK하이닉스 Gold P31 M.2 NVMe">SK하이닉스 Gold P31 M.2 NVMe</option>}
-                                {(type==="GPU" || type===null) && <option value="이엠텍지포스 GTX1660SUPER MIRACLE II D6 6GB">이엠텍지포스 GTX1660SUPER MIRACLE II D6 6GB</option>}
-                                {(type==="MAIN_BOARD" || type===null) && <option value="ASUS PRIME H610M-K D4">ASUS PRIME H610M-K D4</option>}
-                                {(type==="POWER" || type===null) && <option value="마이크로닉스 Classic II 풀체인지 500W 80PLUS">마이크로닉스 Classic II 풀체인지 500W 80PLUS</option>}
+                                {(type==="CPU" || type===null || type==="") && <option value="인텔 코어i3-12세대 12100F">인텔 코어i3-12세대 12100F</option>}
+                                {(type==="RAM" || type===null || type==="") && <option value="삼성전자 DDR4-3200 16GB">삼성전자 DDR4-3200 16GB</option>}
+                                {(type==="SSD" || type===null || type==="") && <option value="SK하이닉스 Gold P31 M.2 NVMe">SK하이닉스 Gold P31 M.2 NVMe</option>}
+                                {(type==="GPU" || type===null || type==="") && <option value="이엠텍지포스 GTX1660SUPER MIRACLE II D6 6GB">이엠텍지포스 GTX1660SUPER MIRACLE II D6 6GB</option>}
+                                {(type==="MAIN_BOARD" || type===null || type==="") && <option value="ASUS PRIME H610M-K D4">ASUS PRIME H610M-K D4</option>}
+                                {(type==="POWER" || type===null || type==="") && <option value="마이크로닉스 Classic II 풀체인지 500W 80PLUS">마이크로닉스 Classic II 풀체인지 500W 80PLUS</option>}
                             </InputSelect>
                         </div>
                         <span><label>직접 입력</label>
