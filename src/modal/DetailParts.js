@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {useDispatch} from "react-redux";
-import {close} from "../redux/modalSlice";
+import {close, modifyParts} from "../redux/modalSlice";
 import {useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
 
@@ -117,63 +117,90 @@ const ModifyParts = (props) => {
                     </ModalHeader>
                     {data !== null && //진짜 맘에안들지만 데이터 가져오는동안 에러 방
                         <div>
-                        <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-                            <span style={{color: 'grey'}}>부품종류</span>
-                            <span >{data.type}</span>
-                        </div>
-                            <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
+                            <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
+                                <span style={{color: 'grey'}}>부품종류</span>
+                                <span>{data.type}</span>
+                            </div>
+                            <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
                                 <span style={{color: 'grey'}}>부품명</span>
-                                <span >{data.name}</span>
+                                <span>{data.name}</span>
                             </div>
-                            <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
+                            <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
                                 <span style={{color: 'grey'}}>부품번호</span>
-                                <span >{data.serial}</span>
+                                <span>{data.serial}</span>
                             </div>
-                            <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
+                            <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
                                 <span style={{color: 'grey'}}>구입일자</span>
-                                <span >{`${data.buy_at[0]}-${data.buy_at[1]}-${data.buy_at[2]}`}</span>
+                                <span>{`${data.buy_at[0]}-${data.buy_at[1]}-${data.buy_at[2]}`}</span>
                             </div>
-                            <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
+                            <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
                                 <span style={{color: 'grey'}}>본체 부착 여부</span>
-                                <span >{data.used_yn? "YES" : "NO"}</span>
+                                <span>{data.used_yn ? "YES" : "NO"}</span>
                             </div>
-                            <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
+                            <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
                                 <span style={{color: 'grey'}}>기타사항</span>
-                                <span >{data.etc === null ? '(미입력)' : data.etc}</span>
+                                <span>{data.etc === null ? '(미입력)' : data.etc}</span>
+
                             </div>
+                            <div style={{borderBottom: "1px solid #d3d2d2", paddingBottom: "15px", marginTop: "15px"}}>
+                                <button onClick={() => {
+                                    dispatch(modifyParts());
+                                }}>수정하기</button>
+                            </div>
+
 
                             {data.used_yn && <div>
                                 <br/>
                                 부품 사용 정보
-                                <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
+                                <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
                                     <span style={{color: 'grey'}}>본체 번호</span>
-                                    <span >{list[0].serial}</span>
+                                    <span>{list[0].serial}</span>
                                 </div>
                                 {list[0].used_yn && <div>
-                                <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-                                    <span style={{color: 'grey'}}>대여 고객명</span>
-                                    <span >{list[0].name}</span>
-                                </div>
-                                <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-                                    <span style={{color: 'grey'}}>대여 시작일</span>
-                                    <span >{convertTimestamp(list[0].start_date)}</span>
-                                </div>
-                                <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-                                    <span style={{color: 'grey'}}>대여 종료일</span>
-                                    <span >{convertTimestamp(list[0].end_date)}</span>
-                                </div>
-                                <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-                                    <span style={{color: 'grey'}}>대여 참고사항</span>
-                                    <span >{list[0].etc}</span>
-                                </div>
-                                <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-                                    <span style={{color: 'grey'}}>대여 상태</span>
-                                    <span >{convertState(list[0].type)}</span>
-                                </div>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        flexDirection: 'row'
+                                    }}>
+                                        <span style={{color: 'grey'}}>대여 고객명</span>
+                                        <span>{list[0].name}</span>
+                                    </div>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        flexDirection: 'row'
+                                    }}>
+                                        <span style={{color: 'grey'}}>대여 시작일</span>
+                                        <span>{convertTimestamp(list[0].start_date)}</span>
+                                    </div>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        flexDirection: 'row'
+                                    }}>
+                                        <span style={{color: 'grey'}}>대여 종료일</span>
+                                        <span>{convertTimestamp(list[0].end_date)}</span>
+                                    </div>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        flexDirection: 'row'
+                                    }}>
+                                        <span style={{color: 'grey'}}>대여 참고사항</span>
+                                        <span>{list[0].etc}</span>
+                                    </div>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        flexDirection: 'row'
+                                    }}>
+                                        <span style={{color: 'grey'}}>대여 상태</span>
+                                        <span>{convertState(list[0].type)}</span>
+                                    </div>
                                 </div>
                                 }
                             </div>}
-                    </div>
+                        </div>
                     }
                     {data === null && <CircularProgress style={{marginTop: '180px'}} color="inherit" />}
                 </div>

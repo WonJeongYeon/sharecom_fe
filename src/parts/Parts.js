@@ -181,7 +181,7 @@ const Parts = (props) => {
 
         }}>
             {modal === "add" && <AddParts/>}
-            {modal === "detail_parts" && <DetailParts data={modifyParts}/>}
+            {modal === "detail_parts" && <DetailParts data={modifyParts} />}
             {modal === "modify_parts" && <ModifyParts data={modifyParts}/>}
             {modal === "delete" && <DeleteParts data={modifyParts}/>}
             <div style={{marginLeft: "50px", display: "flex", justifyContent: "space-between"}}>
