@@ -12,6 +12,11 @@ const SearchRoundButton = styled.button`
     outline: none;
     width: 40px;
     height: 40px;
+
+    &:hover {
+        background-color: #efefef;
+    }
+
 `;
 
 export default SearchRoundButton;

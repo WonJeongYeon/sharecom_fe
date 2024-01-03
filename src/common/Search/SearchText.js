@@ -7,6 +7,9 @@ const SearchText = styled.input`
   border-radius: 3px;
   //margin-bottom: 15px;
   outline: none;
+    &:focus{
+        border: 1px solid black;
+    }
 `;
 
 export default SearchText;
