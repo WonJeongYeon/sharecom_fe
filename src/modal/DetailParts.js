@@ -15,6 +15,7 @@ import InputText from "../common/modal/InputText";
 import InputDateSelect from "../common/modal/InputDateSelect";
 import RoundButton from "../common/modal/RoundButton";
 import {CircularProgress} from "@mui/material";
+import SmallButton from "../common/SmallButton";
 
 const Modal = styled.div`
     position: fixed;
@@ -51,6 +52,17 @@ const ModalContainer = styled.div`
     transform: translateX(-50%) translateY(-50%);
     overflow-y: scroll;
   
+`;
+
+const DetailLabelSpan = styled.span`
+    color: grey;
+    width: 100px;
+    text-align: left;
+`;
+
+const DetailContentSpan = styled.span`
+    text-align: right;
+    width: 250px;
 `;
 
 const convertTimestamp = (timestamp) => {
@@ -118,34 +130,34 @@ const ModifyParts = (props) => {
                     {data !== null && //진짜 맘에안들지만 데이터 가져오는동안 에러 방
                         <div>
                             <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
-                                <span style={{color: 'grey'}}>부품종류</span>
-                                <span>{data.type}</span>
+                                <DetailLabelSpan>부품종류</DetailLabelSpan>
+                                <DetailContentSpan>{data.type}</DetailContentSpan>
                             </div>
                             <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
-                                <span style={{color: 'grey'}}>부품명</span>
-                                <span>{data.name}</span>
+                                <DetailLabelSpan>부품명</DetailLabelSpan>
+                                <DetailContentSpan>{data.name}</DetailContentSpan>
                             </div>
                             <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
-                                <span style={{color: 'grey'}}>부품번호</span>
-                                <span>{data.serial}</span>
+                                <DetailLabelSpan>부품번호</DetailLabelSpan>
+                                <DetailContentSpan>{data.serial}</DetailContentSpan>
                             </div>
                             <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
-                                <span style={{color: 'grey'}}>구입일자</span>
-                                <span>{`${data.buy_at[0]}-${data.buy_at[1]}-${data.buy_at[2]}`}</span>
+                                <DetailLabelSpan>구입일자</DetailLabelSpan>
+                                <DetailContentSpan>{`${data.buy_at[0]}-${data.buy_at[1]}-${data.buy_at[2]}`}</DetailContentSpan>
                             </div>
                             <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
-                                <span style={{color: 'grey'}}>본체 부착 여부</span>
-                                <span>{data.used_yn ? "YES" : "NO"}</span>
+                                <DetailLabelSpan>본체 부착 여부</DetailLabelSpan>
+                                <DetailContentSpan>{data.used_yn ? "YES" : "NO"}</DetailContentSpan>
                             </div>
                             <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
-                                <span style={{color: 'grey'}}>기타사항</span>
-                                <span>{data.etc === null ? '(미입력)' : data.etc}</span>
+                                <DetailLabelSpan>기타사항</DetailLabelSpan>
+                                <DetailContentSpan>{data.etc === null ? '(미입력)' : data.etc}</DetailContentSpan>
 
                             </div>
                             <div style={{borderBottom: "1px solid #d3d2d2", paddingBottom: "15px", marginTop: "15px"}}>
-                                <button onClick={() => {
+                                <SmallButton color={"#d4d2ff"} onClick={() => {
                                     dispatch(modifyParts());
-                                }}>수정하기</button>
+                                }}>수정하기</SmallButton>
                             </div>
 
 
