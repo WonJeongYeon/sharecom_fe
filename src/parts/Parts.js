@@ -25,6 +25,11 @@ const Container = styled.table`
     //width: 50px;
     margin-left: 50px;
     table-layout: fixed;
+    margin-top: 10px;
+    border-top: 1px solid #d3d2d2;
+    border-bottom: 1px solid #d3d2d2;
+    border-right: 1px solid #d3d2d2;
+    border-collapse: collapse
 `;
 
 const TableDiv = styled.tr`
@@ -32,39 +37,51 @@ const TableDiv = styled.tr`
     //width: 100%;
     //display: flex;
     //flex-direction: row;
+    border-top: 1px solid #d3d2d2;
 `;
 const TableHeader = styled.th`
-    border: 1px solid black;
+    //border: 1px solid black;
     padding: 10px 20px;
     width: ${(props) => props.width};
+    text-align: left;
+    font-size: 15px;
+    color: #828282;
+    background-color: #fafafa;
 
     cursor: pointer;
 `;
 
 const TableHeaderEtc = styled.th`
-    border: 1px solid black;
+    //border: 1px solid black;
+    text-align: left;
     padding: 10px 20px;
+    background-color: #fafafa;
+    font-size: 15px;
+    color: #828282;
     width: 200px;
+    border-right: 1px solid #d3d2d2;
 
 
     cursor: pointer;
 `;
 
 const TableSpan = styled.td`
-    border: 1px solid black;
+    //border: 1px solid black;
     padding: 10px 20px;
+    font-size: 15px;
     width: auto;
-
 `;
 
 const TableSpanEtc = styled.td`
-    border: 1px solid black;
+    //border: 1px solid black;
     padding: 10px 20px;
+    font-size: 15px;
     //width: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-
+    border-right: 1px solid #d3d2d2;
+    
 `;
 
 const MoreButton = styled.div`
@@ -84,6 +101,22 @@ const SearchSpan = styled.span`
     align-items: inherit;
     -ms-flex-pack: inherit;
     justify-content: inherit;
+`;
+
+const UsedTag = styled.span`
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    font-weight: 600;
+    padding: 3px 5px 3px 5px;
+    border: 1px solid rgba(13, 153, 255, 0);
+    font-size: 13px;
+    width: 60px;
+    justify-content: center;
+    background-color: ${props => props.used? "#f5d0cd" : "#d2ebd3"};
+    //210 235 211 
+    //245 208 205
 `;
 const Parts = (props) => {
 
@@ -121,6 +154,11 @@ const Parts = (props) => {
             default:
                 return type;
         }
+    }
+    const convertLocalDate = (date) => {
+        return date[0] +
+            '-' + ( (date[1]) < 10 ? "0" + (date[1]) : (date[1]) )+
+            '-' + ( (date[2]) < 10 ? "0" + (date[2]) : (date[2]) )
     }
 
     const getData = async () => {
@@ -184,7 +222,7 @@ const Parts = (props) => {
             {modal === "detail_parts" && <DetailParts data={modifyParts} />}
             {modal === "modify_parts" && <ModifyParts data={modifyParts}/>}
             {modal === "delete" && <DeleteParts data={modifyParts}/>}
-            <div style={{marginLeft: "50px", display: "flex", justifyContent: "space-between"}}>
+            <div style={{width: "95%", marginLeft: "50px", display: "flex", justifyContent: "space-between"}}>
                 <SearchArea>
                     <SearchSelect ref={typeRef} name={"parts"} onChange={(e) => {
                         console.log(e.target.value);
@@ -265,7 +303,7 @@ const Parts = (props) => {
                     sortParts('serial')
                 }}>일련번호{order === 'serial' && <span style={{color: "blue"}}>↓</span>}
                     {order === 'serial_desc' && <span style={{color: "red"}}>↑</span>}</TableHeader>
-                <TableHeader width={"70px"} onClick={() => {
+                <TableHeader width={"90px"} onClick={() => {
                     let arr = data;
                     if (order === 'buyAt') {
                         arr.sort((a, b) =>
@@ -294,7 +332,7 @@ const Parts = (props) => {
                 }}>사용여부{order === 'usedYn' && <span style={{color: "blue"}}>↓</span>}
                     {order === 'usedYn_desc' && <span style={{color: "red"}}>↑</span>}</TableHeader>
                 <TableHeaderEtc>기타사항</TableHeaderEtc>
-                <TableHeader width={"10px"} ref={moreButtonRef}></TableHeader>
+                <TableHeader width={"13px"} ref={moreButtonRef}></TableHeader>
                 {/*</TableDiv>*/}
                 {
                     data.map((item, index) => {
@@ -304,9 +342,11 @@ const Parts = (props) => {
                                 <TableSpan>{partsTypeChanger(item.type)}</TableSpan>
                                 <TableSpan>{item.name}</TableSpan>
                                 <TableSpan>{item.serial}</TableSpan>
-                                <TableSpan>{item.buy_at[0] + "." + item.buy_at[1] + "." + item.buy_at[2]}</TableSpan>
-                                <TableSpan
-                                    style={{color: item.used_yn ? "red" : "blue"}}>{item.used_yn ? "사용 중" : "사용 가능"}</TableSpan>
+                                <TableSpan>{convertLocalDate(item.buy_at)}</TableSpan>
+                                <TableSpan align={"center"}
+                                    style={{color: item.used_yn ? "red" : "green"}}>
+                                    <UsedTag used={item.used_yn}>{item.used_yn ? "사용 중" : "사용 가능"}</UsedTag>
+                                </TableSpan>
                                 <TableSpanEtc>{item.etc}</TableSpanEtc>
                                 <TableSpan>
 
