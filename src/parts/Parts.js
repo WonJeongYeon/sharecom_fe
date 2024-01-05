@@ -4,7 +4,7 @@ import {useEffect, useRef, useState} from "react";
 import axios, {get} from "axios";
 import AddParts from "../modal/AddParts";
 import {useDispatch, useSelector} from "react-redux";
-import {add} from "../redux/modalSlice";
+import {add, deletedParts} from "../redux/modalSlice";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import Dropdown from "./Dropdown";
@@ -18,6 +18,8 @@ import RoundButton from "../common/modal/RoundButton";
 import SearchRoundButton from "../common/Search/SearchRoundButton";
 import SearchArea from "../common/Search/SearchArea";
 import AddButton from "../common/Search/AddButton";
+import DeletedParts from "../modal/DeletedParts";
+import PartsTypeChanger from "./PartsTypeChanger";
 
 const Container = styled.table`
 
@@ -143,18 +145,7 @@ const Parts = (props) => {
     const nameRef = useRef();
     const serialRef = useRef();
 
-    const partsTypeChanger = (type) => {
-        switch (type) {
-            case 'MAIN_BOARD' :
-                return '메인보드';
-            case 'POWER' :
-                return '파워';
-            case 'COOLER' :
-                return '쿨러';
-            default:
-                return type;
-        }
-    }
+
     const convertLocalDate = (date) => {
         return date[0] +
             '-' + ( (date[1]) < 10 ? "0" + (date[1]) : (date[1]) )+
@@ -205,10 +196,6 @@ const Parts = (props) => {
         }
     }
     useEffect(() => {
-        // async function fetchData() {
-        //     setData(await getData());
-        // }
-        // fetchData();
         getData();
     }, [])
     return (
@@ -222,6 +209,7 @@ const Parts = (props) => {
             {modal === "detail_parts" && <DetailParts data={modifyParts} />}
             {modal === "modify_parts" && <ModifyParts data={modifyParts}/>}
             {modal === "delete" && <DeleteParts data={modifyParts}/>}
+            {modal === "deleted_parts" && <DeletedParts/>}
             <div style={{width: "95%", marginLeft: "50px", display: "flex", justifyContent: "space-between"}}>
                 <SearchArea>
                     <SearchSelect ref={typeRef} name={"parts"} onChange={(e) => {
@@ -280,10 +268,16 @@ const Parts = (props) => {
 
                     </SearchRoundButton>
                 </SearchArea>
+                <div>
+                <AddButton onClick={() => {
+                    dispatch(deletedParts())
+                }}>삭제된 부품 관리
+                </AddButton>
                 <AddButton onClick={() => {
                     dispatch(add())
                 }}>부품 추가
                 </AddButton>
+                </div>
             </div>
             {/*<div style={{height: "20px"}}>*/}
             {/*</div>*/}
@@ -339,7 +333,7 @@ const Parts = (props) => {
                         return (
                             <TableDiv>
 
-                                <TableSpan>{partsTypeChanger(item.type)}</TableSpan>
+                                <TableSpan>{PartsTypeChanger(item.type)}</TableSpan>
                                 <TableSpan>{item.name}</TableSpan>
                                 <TableSpan>{item.serial}</TableSpan>
                                 <TableSpan>{convertLocalDate(item.buy_at)}</TableSpan>
