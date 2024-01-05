@@ -62,10 +62,9 @@ const AddParts = (props) => {
 
         try {
             const data = await axios.get(process.env.REACT_APP_DB_HOST + "/desktop/deleted");
-            // console.log(data.data.response);
             setData(data.data.response);
         } catch {
-            // console.log("eee");
+            alert("문제가 발생했습니다. 다시 시도해 주세요.")
         }
     }
 

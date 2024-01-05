@@ -11,6 +11,9 @@ export const modalSlice = createSlice({
         add: (state) => {
             state.value = "add";
         },
+        deletedParts: (state) => {
+            state.value = "deleted_parts";
+        },
         detail: (state) => {
             state.value = "detail";
         },
@@ -44,6 +47,6 @@ export const modalSlice = createSlice({
     }
 })
 
-export const { add, detail, detailParts, modifyParts, modifyDesktop, deletedDesktop, rentalInput, customerDetail, inactive, close } = modalSlice.actions;
+export const { add, deletedParts, detail, detailParts, modifyParts, modifyDesktop, deletedDesktop, rentalInput, customerDetail, inactive, close } = modalSlice.actions;
 
 export default modalSlice.reducer;
