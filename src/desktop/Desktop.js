@@ -10,6 +10,7 @@ import TableContainer from "../table/TableContainer";
 import TableHeader from "../table/TableHeader";
 import TableSpan from "../table/TableSpan";
 import DeletedDesktop from "./DeletedDesktop";
+import ConvertLocalDateTime from "../common/Module/ConvertLocalDateTime";
 
 const Desktop = () => {
 
@@ -60,14 +61,7 @@ const Desktop = () => {
         getData();
     }, [usedYn])
 
-    const convertLocalDateTime = (date) => {
-        return date[0] +
-            '-' + ( (date[1]) < 10 ? "0" + (date[1]) : (date[1]) )+
-            '-' + ( (date[2]) < 10 ? "0" + (date[2]) : (date[2]) ) + " " +
-            (date[3] < 10? "0" : "") + date[3] + ":" +
-            (date[4] < 10? "0" : "") + date[4] + ":" +
-            (date[5] < 10? "0" : "") + date[5]
-    }
+
 
     const convertLogType = (type) => {
         switch (type) {
@@ -190,7 +184,7 @@ const Desktop = () => {
                                     <TableSpan>{convertLogType(item.type)}</TableSpan>
                                     <TableSpan>{item.reason}</TableSpan>
                                     <TableSpan>{item.content}</TableSpan>
-                                    <TableSpan>{convertLocalDateTime(item.insertAt)}</TableSpan>
+                                    <TableSpan>{ConvertLocalDateTime(item.insertAt)}</TableSpan>
                                 </tr>
                             )
                         })

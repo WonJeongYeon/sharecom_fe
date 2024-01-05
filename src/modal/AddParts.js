@@ -14,43 +14,10 @@ import InputArea from "../common/modal/InputArea";
 import InputSelect from "../common/modal/InputSelect";
 import InputDateSelect from "../common/modal/InputDateSelect";
 import RoundButton from "../common/modal/RoundButton";
+import CustomModal from "../common/modal/CustomModal";
+import CustomModalContainer from "../common/modal/CustomModalContainer";
 
-const Modal = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
 
-    width: 100%;
-    height: 100%;
-
-    /*display: none;*/
-
-    z-index: 15;
-    background-color: rgba(0, 0, 0, 0.4);
-  
-
-`;
-
-const ModalContainer = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    width: 350px;
-    height: 600px;
-
-    padding: 40px;
-
-    text-align: center;
-
-    background-color: rgb(255, 255, 255);
-    border-radius: 5px;
-    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-    transform: translateX(-50%) translateY(-50%);
-    overflow-y: scroll;
-  
-`;
 
 const AddParts = (props) => {
     const dispatch = useDispatch();
@@ -116,8 +83,8 @@ const AddParts = (props) => {
     }
 
     return (
-        <Modal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
-            <ModalContainer className={"modal_container"}>
+        <CustomModal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
+            <CustomModalContainer width={350} height={600} className={"modal_container"}>
 
                 <div>
                     <ModalHeader>
@@ -228,8 +195,8 @@ const AddParts = (props) => {
                     </div>
                     <RoundButton disabled={type === null || (direct? (name === null || name === '') : (preset === null || preset === '선택하세요.' || preset === '')) || serial === null} type="button" onClick={() => {saveParts()}}>저장하기</RoundButton>
                 </div>
-            </ModalContainer>
-        </Modal>
+            </CustomModalContainer>
+        </CustomModal>
     )
 }
 

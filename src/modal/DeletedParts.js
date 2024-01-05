@@ -13,43 +13,11 @@ import MoreButton from "../table/MoreButton";
 import ModalHeader from "../common/modal/ModalHeader";
 import CloseBtn from "../common/modal/CloseBtn";
 import PartsTypeChanger from "../parts/PartsTypeChanger";
-
-const Modal = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-
-  /*display: none;*/
-
-  z-index: 15;
-  background-color: rgba(0, 0, 0, 0.4);
+import ConvertLocalDate from "../common/Module/ConvertLocalDate";
+import CustomModal from "../common/modal/CustomModal";
+import CustomModalContainer from "../common/modal/CustomModalContainer";
 
 
-`;
-
-const ModalContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
-  width: 70%;
-  height: 500px;
-
-  padding: 40px;
-
-  text-align: center;
-
-  background-color: rgb(255, 255, 255);
-  border-radius: 5px;
-  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-  transform: translateX(-50%) translateY(-50%);
-  overflow-y: scroll;
-
-`;
 
 const DeletedParts = (props) => {
     const dispatch = useDispatch();
@@ -97,16 +65,11 @@ const DeletedParts = (props) => {
         getData();
     }, [])
 
-    const convertLocalDate = (date) => {
-        return date[0] +
-            '-' + ((date[1]) < 10 ? "0" + (date[1]) : (date[1])) +
-            '-' + ((date[2]) < 10 ? "0" + (date[2]) : (date[2]))
-    }
     return (
-        <Modal className={"modal"} onClick={(e) => {
+        <CustomModal className={"modal"} onClick={(e) => {
             if (e.target.classList.contains("modal")) dispatch(close())
         }}>
-            <ModalContainer className={"modal_container"}>
+            <CustomModalContainer width={700} height={500} className={"modal_container"}>
                 <div>
                     <ModalHeader>
                         삭제된 부품 관리
@@ -135,7 +98,7 @@ const DeletedParts = (props) => {
                                             <TableSpan>{PartsTypeChanger(item.type)}</TableSpan>
                                             <TableSpan>{item.name}</TableSpan>
                                             <TableSpan>{item.serial}</TableSpan>
-                                            <TableSpan>{convertLocalDate(item.buy_at)}</TableSpan>
+                                            <TableSpan>{ConvertLocalDate(item.buy_at)}</TableSpan>
 
                                             <TableSpan>
                                                 <button onClick={() => {
@@ -173,8 +136,8 @@ const DeletedParts = (props) => {
                 </div>
 
 
-            </ModalContainer>
-        </Modal>
+            </CustomModalContainer>
+        </CustomModal>
     )
 }
 

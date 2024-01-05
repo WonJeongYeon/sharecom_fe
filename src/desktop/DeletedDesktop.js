@@ -11,6 +11,7 @@ import TableContainer from "../table/TableContainer";
 import TableHeader from "../table/TableHeader";
 import TableSpan from "../table/TableSpan";
 import MoreButton from "../table/MoreButton";
+import ConvertLocalDateTime from "../common/Module/ConvertLocalDateTime";
 
 const Modal = styled.div`
   position: fixed;
@@ -112,14 +113,7 @@ const AddParts = (props) => {
         getData();
     }, [])
 
-    const convertLocalDateTime = (date) => {
-        return date[0] +
-            '-' + ((date[1]) < 10 ? "0" + (date[1]) : (date[1])) +
-            '-' + ((date[2]) < 10 ? "0" + (date[2]) : (date[2])) + " " +
-            (date[3] < 10 ? "0" : "") + date[3] + ":" +
-            (date[4] < 10 ? "0" : "") + date[4] + ":" +
-            (date[5] < 10 ? "0" : "") + date[5]
-    }
+
     return (
         <Modal className={"modal"} onClick={(e) => {
             if (e.target.classList.contains("modal")) dispatch(close())
@@ -137,7 +131,7 @@ const AddParts = (props) => {
                                     <>
                                         <tr>
                                             <TableSpan>{item.serial}</TableSpan>
-                                            <TableSpan>{convertLocalDateTime(item.deletedAt)}</TableSpan>
+                                            <TableSpan>{ConvertLocalDateTime(item.deletedAt)}</TableSpan>
                                             <TableSpan>
                                                 <button onClick={() => {
                                                     setDetailData(null);

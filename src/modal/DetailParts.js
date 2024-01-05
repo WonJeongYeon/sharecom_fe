@@ -16,43 +16,9 @@ import InputDateSelect from "../common/modal/InputDateSelect";
 import RoundButton from "../common/modal/RoundButton";
 import {CircularProgress} from "@mui/material";
 import SmallButton from "../common/SmallButton";
+import CustomModal from "../common/modal/CustomModal";
+import CustomModalContainer from "../common/modal/CustomModalContainer";
 
-const Modal = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    /*display: none;*/
-
-    z-index: 15;
-    background-color: rgba(0, 0, 0, 0.4);
-  
-
-`;
-
-const ModalContainer = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    width: 350px;
-    height: 500px;
-
-    padding: 40px;
-
-    text-align: center;
-
-    background-color: rgb(255, 255, 255);
-    border-radius: 5px;
-    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-    transform: translateX(-50%) translateY(-50%);
-    overflow-y: scroll;
-  
-`;
 
 const DetailLabelSpan = styled.span`
     color: grey;
@@ -110,10 +76,10 @@ const ModifyParts = (props) => {
     }, [])
 
     return (
-        <Modal className={"modal"}
+        <CustomModal className={"modal"}
                // onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}
         >
-            <ModalContainer className={"modal_container"}>
+            <CustomModalContainer width={350} height={500} className={"modal_container"}>
 
                 <div>
                     <ModalHeader>
@@ -216,8 +182,8 @@ const ModifyParts = (props) => {
                     }
                     {data === null && <CircularProgress style={{marginTop: '180px'}} color="inherit" />}
                 </div>
-            </ModalContainer>
-        </Modal>
+            </CustomModalContainer>
+        </CustomModal>
     )
 }
 

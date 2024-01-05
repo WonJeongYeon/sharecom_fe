@@ -20,6 +20,7 @@ import SearchArea from "../common/Search/SearchArea";
 import AddButton from "../common/Search/AddButton";
 import DeletedParts from "../modal/DeletedParts";
 import PartsTypeChanger from "./PartsTypeChanger";
+import ConvertLocalDate from "../common/Module/ConvertLocalDate";
 
 const Container = styled.table`
 
@@ -117,8 +118,6 @@ const UsedTag = styled.span`
     width: 60px;
     justify-content: center;
     background-color: ${props => props.used? "#f5d0cd" : "#d2ebd3"};
-    //210 235 211 
-    //245 208 205
 `;
 const Parts = (props) => {
 
@@ -128,7 +127,6 @@ const Parts = (props) => {
     const [buy_at, setBuyAt] = useState(null);
     const [etc, setEtc] = useState(null);
 
-    const [date, setDate] = useState(new Date());
     let [data, setData] = useState([]);
     const [order, setOrder] = useState('');
 
@@ -146,11 +144,7 @@ const Parts = (props) => {
     const serialRef = useRef();
 
 
-    const convertLocalDate = (date) => {
-        return date[0] +
-            '-' + ( (date[1]) < 10 ? "0" + (date[1]) : (date[1]) )+
-            '-' + ( (date[2]) < 10 ? "0" + (date[2]) : (date[2]) )
-    }
+
 
     const getData = async () => {
         try {
@@ -336,7 +330,7 @@ const Parts = (props) => {
                                 <TableSpan>{PartsTypeChanger(item.type)}</TableSpan>
                                 <TableSpan>{item.name}</TableSpan>
                                 <TableSpan>{item.serial}</TableSpan>
-                                <TableSpan>{convertLocalDate(item.buy_at)}</TableSpan>
+                                <TableSpan>{ConvertLocalDate(item.buy_at)}</TableSpan>
                                 <TableSpan align={"center"}
                                     style={{color: item.used_yn ? "red" : "green"}}>
                                     <UsedTag used={item.used_yn}>{item.used_yn ? "사용 중" : "사용 가능"}</UsedTag>

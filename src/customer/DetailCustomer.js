@@ -9,43 +9,14 @@ import axios from "axios";
 import TableContainer from "../table/TableContainer";
 import TableHeader from "../table/TableHeader";
 import TableSpan from "../table/TableSpan";
+import ConvertLocalDate from "../common/Module/ConvertLocalDate";
+import ConvertLocalDateTime from "../common/Module/ConvertLocalDateTime";
+import CustomModal from "../common/modal/CustomModal";
+import CustomModalContainer from "../common/modal/CustomModalContainer";
 
-const Modal = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
 
-    width: 100%;
-    height: 100%;
 
-    /*display: none;*/
 
-    z-index: 15;
-    background-color: rgba(0, 0, 0, 0.4);
-  
-
-`;
-
-const ModalContainer = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    width: 700px;
-    height: 500px;
-
-    padding: 40px;
-
-    text-align: center;
-
-    background-color: rgb(255, 255, 255);
-    border-radius: 5px;
-    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-    transform: translateX(-50%) translateY(-50%);
-    overflow-y: scroll;
-  
-`;
 
 const DetailCustomer = (props) => {
     const dispatch = useDispatch();
@@ -66,19 +37,8 @@ const DetailCustomer = (props) => {
         }
     }
 
-    const convertLocalDate = (date) => {
-        return date[0] +
-            '-' + ( (date[1]) < 10 ? "0" + (date[1]) : (date[1]) )+
-            '-' + ( (date[2]) < 10 ? "0" + (date[2]) : (date[2]) )
-    }
-    const convertLocalDateTime = (date) => {
-        return date[0] +
-            '-' + ( (date[1]) < 10 ? "0" + (date[1]) : (date[1]) )+
-            '-' + ( (date[2]) < 10 ? "0" + (date[2]) : (date[2]) ) + " " +
-            (date[3] < 10? "0" : "") + date[3] + ":" +
-            (date[4] < 10? "0" : "") + date[4] + ":" +
-            (date[5] < 10? "0" : "") + date[5]
-    }
+
+
    const getData = async () => {
        try {
            const data = await axios.get(process.env.REACT_APP_DB_HOST + `/customer/${props.data}`);
@@ -97,8 +57,8 @@ const DetailCustomer = (props) => {
 
 
     return (
-        <Modal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
-            <ModalContainer className={"modal_container"}>
+        <CustomModal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
+            <CustomModalContainer width={700} height={500}>
 
                 <div>
                     <h2>고객 상세정보</h2>
@@ -129,9 +89,9 @@ const DetailCustomer = (props) => {
                                     <TableSpan>{item.serial}</TableSpan>
                                     <TableSpan>{item.etc}</TableSpan>
                                     <TableSpan>{convertState(item.state)}</TableSpan>
-                                    <TableSpan>{convertLocalDate(item.startDate)}</TableSpan>
-                                    <TableSpan>{convertLocalDate(item.endDate)}</TableSpan>
-                                    <TableSpan>{convertLocalDateTime(item.insertAt)}</TableSpan>
+                                    <TableSpan>{ConvertLocalDate(item.startDate)}</TableSpan>
+                                    <TableSpan>{ConvertLocalDate(item.endDate)}</TableSpan>
+                                    <TableSpan>{ConvertLocalDateTime(item.insertAt)}</TableSpan>
                                 </tr>
                             )
 
@@ -146,8 +106,8 @@ const DetailCustomer = (props) => {
                         dispatch(rentalInput(JSON.stringify(reduxData)));
                         }}>대여정보 추가하기</button>
                 </div>
-            </ModalContainer>
-        </Modal>
+            </CustomModalContainer>
+        </CustomModal>
     )
 }
 

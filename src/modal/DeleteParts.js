@@ -6,41 +6,8 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
-
-const Modal = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    /*display: none;*/
-
-    z-index: 15;
-    background-color: rgba(0, 0, 0, 0.4);
-  
-
-`;
-
-const ModalContainer = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    width: 380px;
-    height: 230px;
-
-    text-align: center;
-
-    background-color: rgb(255, 255, 255);
-    border-radius: 30px;
-    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-    transform: translateX(-50%) translateY(-50%);
-    overflow-y: scroll;
-  
-`;
+import CustomModal from "../common/modal/CustomModal";
+import CustomModalContainer from "../common/modal/CustomModalContainer";
 
 const DeleteParts = (props) => {
     const dispatch = useDispatch();
@@ -60,24 +27,14 @@ const DeleteParts = (props) => {
         }
     }
 
-    // const partsType = {
-    //     CPU: "CPU",
-    //     메인보드: "MAIN_BOARD",
-    //     RAM: "RAM",
-    //     GPU: "GPU",
-    //     SSD: "SSD",
-    //     POWER: "POWER",
-    //     COOLER: "COOLER"
-    // }
-
 
     return (
-        <Modal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
-            <ModalContainer className={"modal_container"}>
+        <CustomModal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
+            <CustomModalContainer width={340} height={190} radius={50} className={"modal_container"}>
 
                 {
                     parseData.used_yn? <div>
-                            <div style={{height: "150px", display:"flex", justifyContent: "center", alignItems: "center"}}><h2>사용 중인 부품은 삭제할 수 없습니다.</h2></div>
+                            <div style={{height: "150px", display:"flex", justifyContent: "center", alignItems: "center"}}><h3>사용 중인 부품은 삭제할 수 없습니다.</h3></div>
                     <hr></hr>
                         <div style={{width: "100%", height: "55px", cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center"}}
                         onClick={(e) => {dispatch(close())}}>확인</div>
@@ -96,8 +53,8 @@ const DeleteParts = (props) => {
                         </div>
                         </div>
                 }
-            </ModalContainer>
-        </Modal>
+            </CustomModalContainer>
+        </CustomModal>
     )
 }
 
