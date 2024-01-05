@@ -6,6 +6,7 @@ const SearchSelect = styled.select`
   border: 1px solid #d3d2d2;
   border-radius: 3px;
   //margin-bottom: 15px;
+    cursor: pointer;
 `;
 
 export default SearchSelect;
