@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Nav from "./nav/Nav";
+import Nav from "./nav/Nav_new";
 import Parts from "./parts/Parts";
 import {Outlet} from "react-router-dom";
 

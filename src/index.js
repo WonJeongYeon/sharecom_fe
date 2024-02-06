@@ -13,6 +13,8 @@ import Parts from "./parts/Parts";
 import Desktop from "./desktop/Desktop";
 import Customer from "./customer/Customer";
 import All from "./all/All";
+import {ThemeProvider} from "./context/themeProvider";
+import {GlobalStyle} from "./theme/GlobalStyle";
 
 export let persistor = persistStore(store);
 
@@ -21,6 +23,8 @@ root.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
             <BrowserRouter>
+                <ThemeProvider>
+                    <GlobalStyle/>
                 <Routes>
                     <Route path="/" element={<App />}>
                         <Route path="/" element={<Parts />}/>
@@ -29,6 +33,7 @@ root.render(
                         <Route path="all" element={<All/>}/>
                     </Route>
                 </Routes>
+                </ThemeProvider>
             </BrowserRouter>
 
         </PersistGate>

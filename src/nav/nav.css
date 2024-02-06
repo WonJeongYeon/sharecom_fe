@@ -1,0 +1,101 @@
+/*.link {*/
+/*    position: relative;*/
+/*}*/
+
+/*.link .sub {*/
+/*    display: block;*/
+/*    font-size: 10px;*/
+/*    line-height: 20px;*/
+/*    opacity: 0;*/
+/*    transition: all 0.5s;*/
+/*    transform: translateY(-8px);*/
+/*}*/
+
+/*.link::before {*/
+/*    display: block;*/
+/*    position: absolute;*/
+/*    width: 100%;*/
+/*    content: '';*/
+/*    height: 5px;*/
+/*    box-sizing: border-box;*/
+/*    border-top: 2px solid #ccc;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    transition: all 0.5s;*/
+/*}*/
+
+/*.link::after {*/
+/*    display: block;*/
+/*    position: absolute;*/
+/*    width: 100%;*/
+/*    content: '';*/
+/*    height: 1px;*/
+/*    border-bottom: 2px solid #ccc;*/
+/*    bottom: 0;*/
+/*    left: 0;*/
+/*    opacity: 0;*/
+/*    transition: all 0.5s;*/
+/*    transform: translateY(-8px);*/
+/*}*/
+
+/*.link:hover .sub {*/
+/*    opacity: 1;*/
+/*    transform: translateY(0);*/
+/*}*/
+
+/*!*.sub {*!*/
+/*!*    height: 0;*!*/
+/*!*}*!*/
+
+/*.sub:hover{*/
+/*    transition: 1s;*/
+/*    height: 50px;*/
+/*}*/
+
+
+
+/*.link:hover::before {*/
+/*    border-top: 5px solid #ccc;*/
+/*}*/
+
+/*.link:hover::after {*/
+/*    opacity: 1;*/
+/*    transform: translateY(0);*/
+/*}*/
+
+.sub {
+    /*display: none;*/
+    text-overflow: fade;
+    white-space: nowrap;
+    position: absolute;
+    bottom: 0;
+    opacity: 0;
+    /*display: none;*/
+}
+
+.icon {
+    min-height: 36px;
+    position: absolute;
+    top: 0;
+}
+
+.link:hover {
+    transition: 0.5s;
+    height: 100px;
+
+}
+
+.link:hover .sub {
+    transition: 1s;
+    display: block;
+    opacity: 1;
+}
+
+.link {
+    position: relative;
+    overflow: hidden;
+    height: 36px;
+    transition: 0.5s;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}

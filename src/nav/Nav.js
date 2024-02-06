@@ -1,6 +1,7 @@
-import styled from "styled-components";
+import styled, {useTheme} from "styled-components";
 import {Link, useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
+import ThemeToggle from "../common/ThemeToggle";
 
 const NavList = styled.div`
   list-style: none;
@@ -51,7 +52,6 @@ const NoDecoratedLink = styled.link`
 `;
 
 const Nav = (props) => {
-    const [menu, setMenu] = useState("parts");
     const location = useLocation();
     useEffect(() => {
         console.log(location.pathname);

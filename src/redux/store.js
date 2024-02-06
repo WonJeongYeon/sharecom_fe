@@ -1,18 +1,19 @@
 import {combineReducers} from "redux";
 import {persistReducer} from "redux-persist";
 import modalReducer from "./modalSlice";
+import darkReducer from "./darkSlice";
 import storage from 'redux-persist/lib/storage';
 import {configureStore} from "@reduxjs/toolkit";
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ["bookmark", "modal"]
+    whitelist: ["dark", "modal"]
 }
 
 const reducers = combineReducers({
-    modal: modalReducer
-    // bookmark: bookmarkReducer
+    modal: modalReducer,
+    dark: darkReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducers);
