@@ -7,6 +7,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import AddDesktopFindParts from "./AddDesktopFindParts";
+import SearchText from "../common/Search/SearchText";
+import SearchRoundButton from "../common/Search/SearchRoundButton";
+import AddButton from "../common/Search/AddButton";
 
 const Modal = styled.div`
     position: fixed;
@@ -137,15 +140,18 @@ const AddParts = (props) => {
             <ModalContainer className={"modal_container"}>
                 <div>
                     <h2>본체 등록</h2>
+                    <br/>
+                    <div style={{display: 'flex', justifyContent: 'space-evenly', flexDirection: 'row'}}>
                     <div>
-                        <label>본체 번호</label>
-                        <input type={"text"} placeholder={"본체 번호"}
+                        <span style={{color: 'red'}}>* </span><label>본체 번호 </label>
+                        <SearchText type={"text"} placeholder={"본체 번호"}
                                onInput={(e) => {setSerial(e.target.value)}}/>
                     </div>
                     <div>
-                        <label>기타 사항</label>
-                        <input type={"text"} placeholder={"기타 사항"}
+                        <label>기타 사항 </label>
+                        <SearchText type={"text"} placeholder={"기타 사항"}
                                onInput={(e) => {setEtc(e.target.value)}}/>
+                    </div>
                     </div>
 
                 </div>
@@ -160,7 +166,7 @@ const AddParts = (props) => {
                 <AddDesktopFindParts data={coolerData} type={"COOLER"} setData={setCoolerData} setId={setCoolerId}/>
 
 
-                <button type="button" onClick={() => {saveParts()}}>저장하기</button>
+                <AddButton type="button" onClick={() => {saveParts()}}>저장하기</AddButton>
             </ModalContainer>
         </Modal>
     )

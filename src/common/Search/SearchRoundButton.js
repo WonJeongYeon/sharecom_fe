@@ -5,7 +5,7 @@ const SearchRoundButton = styled.button`
     padding: 10px;
     //width: 94%;
     border: 1px solid #d3d2d2;
-    background-color: white;
+    //background-color: white;
     cursor: pointer;
     border-radius: 3px;
     //margin-bottom: 15px;
@@ -13,9 +13,8 @@ const SearchRoundButton = styled.button`
     width: 40px;
     height: 40px;
 
-    &:hover {
-        background-color: #efefef;
-    }
+    transition: 0.2s;
+    
 
 `;
 
