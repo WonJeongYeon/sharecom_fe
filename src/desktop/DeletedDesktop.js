@@ -2,15 +2,12 @@ import styled from "styled-components";
 import {useDispatch} from "react-redux";
 import {close} from "../redux/modalSlice";
 import {useEffect, useState} from "react";
-import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
-import AddDesktopFindParts from "./AddDesktopFindParts";
 import TableContainer from "../table/TableContainer";
 import TableHeader from "../table/TableHeader";
 import TableSpan from "../table/TableSpan";
-import MoreButton from "../table/MoreButton";
 import ConvertLocalDateTime from "../common/Module/ConvertLocalDateTime";
 
 const Modal = styled.div`

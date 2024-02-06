@@ -21,12 +21,13 @@ import AddButton from "../common/Search/AddButton";
 import DeletedParts from "../modal/DeletedParts";
 import PartsTypeChanger from "./PartsTypeChanger";
 import ConvertLocalDate from "../common/Module/ConvertLocalDate";
+import UsedTag from "../common/UsedTag";
 
 const Container = styled.table`
 
     width: 95%;
     //width: 50px;
-    margin-left: 50px;
+    margin-left: 70px;
     table-layout: fixed;
     margin-top: 10px;
     border-top: 1px solid #d3d2d2;
@@ -49,7 +50,7 @@ const TableHeader = styled.th`
     text-align: left;
     font-size: 15px;
     color: #828282;
-    background-color: #fafafa;
+    //background-color: #fafafa;
 
     cursor: pointer;
 `;
@@ -58,7 +59,7 @@ const TableHeaderEtc = styled.th`
     //border: 1px solid black;
     text-align: left;
     padding: 10px 20px;
-    background-color: #fafafa;
+    //background-color: #fafafa;
     font-size: 15px;
     color: #828282;
     width: 200px;
@@ -93,32 +94,8 @@ const MoreButton = styled.div`
     height: 16px;
 `;
 
-const SearchSpan = styled.span`
-    //position: absolute;
-    top: 35%;
-    left: 24px;
-    transform: translateY(-50%);
-    pointer-events: none;
-    display: flex;
-    -ms-flex-align: inherit;
-    align-items: inherit;
-    -ms-flex-pack: inherit;
-    justify-content: inherit;
-`;
 
-const UsedTag = styled.span`
-    border-radius: 30px;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-    font-weight: 600;
-    padding: 3px 5px 3px 5px;
-    border: 1px solid rgba(13, 153, 255, 0);
-    font-size: 13px;
-    width: 60px;
-    justify-content: center;
-    background-color: ${props => props.used? "#f5d0cd" : "#d2ebd3"};
-`;
+
 const Parts = (props) => {
 
     const [type, setType] = useState(null);
@@ -204,7 +181,7 @@ const Parts = (props) => {
             {modal === "modify_parts" && <ModifyParts data={modifyParts}/>}
             {modal === "delete" && <DeleteParts data={modifyParts}/>}
             {modal === "deleted_parts" && <DeletedParts/>}
-            <div style={{width: "95%", marginLeft: "50px", display: "flex", justifyContent: "space-between"}}>
+            <div style={{width: "95%", marginLeft: "70px", display: "flex", justifyContent: "space-between"}}>
                 <SearchArea>
                     <SearchSelect ref={typeRef} name={"parts"} onChange={(e) => {
                         console.log(e.target.value);
@@ -275,7 +252,7 @@ const Parts = (props) => {
             </div>
             {/*<div style={{height: "20px"}}>*/}
             {/*</div>*/}
-            <Container style={{marginLeft: "50px"}}>
+            <Container style={{marginLeft: "70px"}}>
 
                 {/*<TableDiv>*/}
                 <TableHeader width={"70px"} onClick={() => {

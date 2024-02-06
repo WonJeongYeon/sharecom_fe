@@ -19,6 +19,7 @@ const Modal = styled.div`
 
     z-index: 15;
     background-color: rgba(0, 0, 0, 0.4);
+    
   
 
 `;
@@ -27,6 +28,7 @@ const ModalContainer = styled.div`
     position: absolute;
     top: 50%;
     left: 50%;
+    
 
     width: 380px;
     height: 230px;

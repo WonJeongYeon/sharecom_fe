@@ -10,32 +10,20 @@ import Rental from "./Rental";
 import CustomerDropdown from "./CustomerDropdown";
 import ModifyParts from "../modal/ModifyParts";
 import DetailCustomer from "./DetailCustomer";
+import TableContainer from "../common/ListTable/TableContainer";
+import TableHeader from "../common/ListTable/TableHeader";
+import TableSpan from "../common/ListTable/TableSpan";
+import UsedTag from "../common/UsedTag";
 
 
-const Container = styled.table`
 
-  width: 100%;
-  margin-left: 50px;
-`;
 
 const TableDiv = styled.tr`
 
   //display: flex;
   //flex-direction: row;
 `;
-const TableHeader = styled.th`
-  border: 1px solid black;
-  padding: 10px 20px;
-  width: auto;
 
-`;
-
-const TableSpan = styled.td`
-  border: 1px solid black;
-  padding: 10px 20px;
-  width: auto;
-
-`;
 
 const MoreButton = styled.div`
   cursor: pointer;
@@ -87,7 +75,7 @@ const Customer = () => {
     }, [])
 
     return (
-        <div onClick={(e) => {
+        <div style={{marginLeft: '70px'}} onClick={(e) => {
             if (!e.target.classList.contains("dropdown")) {
                 setDropdown(0);
             }
@@ -95,7 +83,7 @@ const Customer = () => {
             {modal === "add" && <AddCustomer/>}
             {modal === "rental_input" && <Rental/>}
             {modal === "customer_detail" && <DetailCustomer data={detailCustomerId}/>}
-            <div style={{marginLeft: "60px", display: "flex", justifyContent: "space-between"}}>
+            <div style={{display: "flex", justifyContent: "space-between"}}>
             고객 검색
                 <input type={"text"} placeholder={"이름"}
                        onInput={(e) => {
@@ -122,16 +110,16 @@ const Customer = () => {
                 }}>고객 추가</button>
             </div>
 
-            <Container style={{marginLeft: "50px"}}>
+            <TableContainer>
 
                 {/*<TableDiv>*/}
-                <TableHeader>고객명</TableHeader>
+                <TableHeader width={'70px'}>고객명</TableHeader>
                 <TableHeader>주소</TableHeader>
-                <TableHeader>전화번호</TableHeader>
-                <TableHeader>생년월일</TableHeader>
+                <TableHeader width={'110px'}>전화번호</TableHeader>
+                <TableHeader width={'90px'}>생년월일</TableHeader>
                 <TableHeader>기타사항</TableHeader>
-                <TableHeader>대여여부</TableHeader>
-                <TableHeader></TableHeader>
+                <TableHeader width={'70px'}>대여여부</TableHeader>
+                <TableHeader width={'13px'}></TableHeader>
                 {/*</TableDiv>*/}
                 {
                     data.map((item, index) => {
@@ -143,7 +131,9 @@ const Customer = () => {
                                 <TableSpan>{item.phone}</TableSpan>
                                 <TableSpan>{item.birth[0] + "." + item.birth[1] + "." + item.birth[2]}</TableSpan>
                                 <TableSpan>{item.etc}</TableSpan>
-                                <TableSpan style={{color: item.rentalState? "red" : "blue"}}>{item.rentalState ? "대여 중" : "-"}</TableSpan>
+                                <TableSpan style={{color: item.rentalState? "red" : "blue"}}>
+                                    <UsedTag used={item.rentalState}>{item.rentalState ? "대여 중" : "-"}</UsedTag>
+                                </TableSpan>
                                 <TableSpan>
 
                                     <MoreButton  onClick={(e) => {
@@ -169,7 +159,7 @@ const Customer = () => {
                         );
                     })
                 }
-            </Container>
+            </TableContainer>
 
         </div>
     )
