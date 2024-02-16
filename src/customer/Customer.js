@@ -14,6 +14,9 @@ import TableContainer from "../common/ListTable/TableContainer";
 import TableHeader from "../common/ListTable/TableHeader";
 import TableSpan from "../common/ListTable/TableSpan";
 import UsedTag from "../common/UsedTag";
+import SearchText from "../common/Search/SearchText";
+import SearchRoundButton from "../common/Search/SearchRoundButton";
+import AddButton from "../common/Search/AddButton";
 
 
 
@@ -83,31 +86,39 @@ const Customer = () => {
             {modal === "add" && <AddCustomer/>}
             {modal === "rental_input" && <Rental/>}
             {modal === "customer_detail" && <DetailCustomer data={detailCustomerId}/>}
-            <div style={{display: "flex", justifyContent: "space-between"}}>
-            고객 검색
-                <input type={"text"} placeholder={"이름"}
+            <div style={{margin: '10px'}}>
+                고객 검색
+            </div>
+            <div style={{margin: '10px', display: "flex"}}>
+
+                <SearchText type={"text"} placeholder={"이름"}
                        onInput={(e) => {
                            setName(e.target.value)
                        }}/>
-                <input type={"text"} placeholder={"주소"}
+                <SearchText type={"text"} placeholder={"주소"}
                        onInput={(e) => {
                            setAddress(e.target.value)
                        }}/>
-                <input type={"text"} placeholder={"전화번호"}
+                <SearchText type={"text"} placeholder={"전화번호"}
                        onInput={(e) => {
                            setPhone(e.target.value)
                        }}/>
-                <input type={"text"} placeholder={"기타사항"}
+                <SearchText type={"text"} placeholder={"기타사항"}
                        onInput={(e) => {
                            setEtc(e.target.value)
                        }}/>
-                <button type={"button"} onClick={() => {
+                <SearchRoundButton type={"button"} onClick={() => {
                     getData();
-                }}>검색
-                </button>
-                <button onClick={(e) => {
+                }}>
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M9.47375 1.89474C13.6597 1.89474 17.0527 5.2878 17.0527 9.47369C17.0527 10.2532 16.9341 11.0197 16.7041 11.7514C16.5471 12.2505 16.0153 12.5279 15.5161 12.371C15.017 12.2141 14.7396 11.6822 14.8966 11.1831C15.069 10.6345 15.158 10.0597 15.158 9.47369C15.158 6.33424 12.6132 3.78948 9.47375 3.78948C6.33428 3.78948 3.78952 6.33424 3.78952 9.47369C3.78952 12.6125 6.33466 15.1579 9.47375 15.1579C11.0057 15.1579 12.4626 14.5505 13.514 13.5044C13.8507 13.1694 14.3761 13.1397 14.7463 13.4147L14.8524 13.5064L21.8282 20.4883C22.198 20.8584 22.1977 21.4583 21.8276 21.8281C21.4911 22.1643 20.9648 22.1946 20.594 21.9193L20.4878 21.8275L14.1361 15.4699L14.0594 15.5312C12.8519 16.4355 11.3781 16.9722 9.8318 17.0443L9.47375 17.0526C5.28818 17.0526 1.89478 13.6589 1.89478 9.47369C1.89478 5.2878 5.28785 1.89474 9.47375 1.89474Z"></path>
+                    </svg>
+                </SearchRoundButton>
+                <AddButton onClick={(e) => {
                     dispatch(add());
-                }}>고객 추가</button>
+                }}>고객 추가
+                </AddButton>
             </div>
 
             <TableContainer>
@@ -124,7 +135,7 @@ const Customer = () => {
                 {
                     data.map((item, index) => {
                         return (
-                            <TableDiv>
+                            <tr>
 
                                 <TableSpan>{item.name}</TableSpan>
                                 <TableSpan>{item.address}</TableSpan>
@@ -155,7 +166,7 @@ const Customer = () => {
 
                                 </TableSpan>
                                 {dropdown === item.id && <CustomerDropdown/>}
-                            </TableDiv>
+                            </tr>
                         );
                     })
                 }

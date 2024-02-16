@@ -165,7 +165,6 @@ const AddParts = (props) => {
                 <AddDesktopFindParts data={powerData} type={"POWER"} setData={setPowerData} setId={setPowerId}/>
                 <AddDesktopFindParts data={coolerData} type={"COOLER"} setData={setCoolerData} setId={setCoolerId}/>
 
-
                 <AddButton type="button" onClick={() => {saveParts()}}>저장하기</AddButton>
             </ModalContainer>
         </Modal>
