@@ -1,15 +1,24 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
-import TableContainer from "../table/TableContainer";
-import TableHeader from "../table/TableHeader";
-import TableSpan from "../table/TableSpan";
 import {rentalInput} from "../redux/modalSlice";
 import {useDispatch, useSelector} from "react-redux";
 import Rental from "../customer/Rental";
 import MoreButton from "../table/MoreButton";
 import CustomerDropdown from "../customer/CustomerDropdown";
+import AddButton from "../common/Search/AddButton";
+import TableContainer from "../common/ListTable/TableContainer";
+import TableHeader from "../common/ListTable/TableHeader";
+import TableSpan from "../common/ListTable/TableSpan";
+import styled from "styled-components";
+import UsedTag from "../common/UsedTag";
+
+
 
 const All = () => {
+
+
+
+
 
     const [data, setData] = useState([]);
 
@@ -48,7 +57,7 @@ const All = () => {
         }
     }
     return (
-        <div style={{marginLeft: "50px", display: "flex", justifyContent: "space-between"}} onClick={(e) => {
+        <div style={{marginLeft: "70px", display: "flex", justifyContent: "space-between"}} onClick={(e) => {
             if (!e.target.classList.contains("dropdown")) {
                 setDropdown(0);
             }
@@ -57,18 +66,19 @@ const All = () => {
 
             {modal === "rental_input" && <Rental/>}
             <div>
-                <button type="button" onClick={() => {
+                <AddButton type="button" onClick={() => {
                     const reduxData = {id: 0, name: ''};
                     dispatch(rentalInput(JSON.stringify(reduxData)));
-                }}>대여정보 추가하기</button>
+                }}>대여정보 추가하기</AddButton>
             <TableContainer>
-                <TableHeader>대여여부</TableHeader>
-                <TableHeader>본체번호</TableHeader>
-                <TableHeader>고객명</TableHeader>
-                <TableHeader>시작일</TableHeader>
-                <TableHeader>종료일</TableHeader>
-                <TableHeader>특이사항</TableHeader>
-                <TableHeader>대여 상태</TableHeader>
+                <TableHeader width={'60px'}>대여여부</TableHeader>
+                <TableHeader width={'60px'}>본체번호</TableHeader>
+                <TableHeader width={'60px'}>고객명</TableHeader>
+                <TableHeader width={'100px'}>시작일</TableHeader>
+                <TableHeader width={'100px'}>종료일</TableHeader>
+                <TableHeader width={'200px'}>특이사항</TableHeader>
+                <TableHeader width={'60px'}>대여 상태</TableHeader>
+                <TableHeader width={'13px'}></TableHeader>
             {
 
             data.map((item, index) => {
@@ -80,7 +90,7 @@ const All = () => {
                         <TableSpan>{convertTimestamp(item.start_date)}</TableSpan>
                         <TableSpan>{convertTimestamp(item.end_date)}</TableSpan>
                         <TableSpan>{item.etc}</TableSpan>
-                        <TableSpan>{convertState(item.type)}</TableSpan>
+                        <TableSpan style={{color: 'green'}}><UsedTag>{convertState(item.type)}</UsedTag></TableSpan>
                         <TableSpan><MoreButton  onClick={(e) => {
                             console.log(e.target.className);
                             if (dropdown === item.desktopId) {
