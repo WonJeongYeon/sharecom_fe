@@ -51,7 +51,7 @@ const ModalContainer = styled.div`
 const AddParts = (props) => {
     const dispatch = useDispatch();
     const [serial, setSerial] = useState(null);
-    const [etc, setEtc] = useState();
+    const [etc, setEtc] = useState("");
 
     const [cpuData, setCpuData] = useState([]);
     const [gpuData, setGpuData] = useState([]);
@@ -74,7 +74,7 @@ const AddParts = (props) => {
         try {
             const data = await axios.post(process.env.REACT_APP_DB_HOST + "/desktop",  {
                     serial: serial,
-                    etc: etc,
+                    etc: etc === null ? "" : etc,
                     cpuId: cpuId,
                     gpuId: gpuId,
                     boardId: boardId,
@@ -85,7 +85,9 @@ const AddParts = (props) => {
             });
             console.log(data.data.response);
             if (data.data.response === "성공") {
+                alert("PC 등록이 완료되었습니다.")
                 dispatch(close());
+                window.location.reload();
             } else if (data.data.response === "이미 존재하는 본체 고유번호입니다.") {
                 alert(data.data.response);
             } else {
