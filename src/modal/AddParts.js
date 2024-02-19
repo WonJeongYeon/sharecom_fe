@@ -16,6 +16,9 @@ import InputDateSelect from "../common/modal/InputDateSelect";
 import RoundButton from "../common/modal/RoundButton";
 import CustomModal from "../common/modal/CustomModal";
 import CustomModalContainer from "../common/modal/CustomModalContainer";
+import Years from "../common/Module/Years";
+import Months from "../common/Module/Months";
+import Days from "../common/Module/Days";
 
 
 
@@ -33,36 +36,10 @@ const AddParts = (props) => {
     const [direct, setDirect] = useState(false);
     const [preset, setPreset] = useState(null);
 
-    const years = () => {
-        let arr = [];
-        for (let i = 2023; i < 2030; i++) {
-            arr.push(i);
-        }
-        return arr;
-    }
-
-    const months = () => {
-        let arr = [];
-        for (let i = 1; i < 13; i++) {
-            arr.push(i);
-        }
-        return arr;
-    }
-
-    const days = () => {
-        let arr = [];
-        for (let i = 1; i < 32; i++) {
-            arr.push(i);
-        }
-        return arr;
-    }
 
     const saveParts = async () => {
         try {
             //dayjs 라이브러리를 씁시다 Format 설정이 가능함 이따구로 안하고
-            // const dateStr = date.getFullYear() +
-            // '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
-            // '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) )
             const buyDate = buyYear + "-"
                 + (buyMonth < 10 ? "0" + buyMonth : buyMonth) + "-"
                 + (buyDay < 10 ? "0" + buyDay : buyDay)
@@ -144,17 +121,12 @@ const AddParts = (props) => {
                     </InputArea>
                     <InputArea>
                         <InputLabel><span style={{color: 'red'}}>* </span>구입일자 </InputLabel>
-                        {/*<DatePicker*/}
-                        {/*    showIcon*/}
-                        {/*    selected={date}*/}
-                        {/*    onChange={date => {setDate(date)}}*/}
-                        {/*/>*/}
                         <div>
                         <InputDateSelect onChange={(e) => {
                             // console.log(e.target.value)
                             setBuyYear(e.target.value)
                         }}>
-                            {years().map((item, index) => {
+                            {Years(2023, 2030).map((item, index) => {
                                 return (
                                     <option value={item}>{item}</option>
                                 )
@@ -164,7 +136,7 @@ const AddParts = (props) => {
                         <InputDateSelect onChange={(e) => {
                             setBuyMonth(e.target.value)
                         }}>
-                            {months().map((item, index) => {
+                            {Months().map((item, index) => {
                                 return (
                                     <option value={item}>{item}</option>
                                 )
@@ -174,7 +146,7 @@ const AddParts = (props) => {
                         <InputDateSelect onChange={(e) => {
                             setBuyDay(e.target.value)
                         }}>
-                            {days().map((item, index) => {
+                            {Days(buyMonth, buyYear).map((item, index) => {
                                 return (
                                     <option value={item}>{item}</option>
                                 )
