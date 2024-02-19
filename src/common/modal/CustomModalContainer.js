@@ -13,7 +13,7 @@ const CustomModalContainer = styled.div`
 
     text-align: center;
 
-    background-color: rgb(255, 255, 255);
+    
     border-radius: ${(props) => props.radius===undefined? '5px' : props.radius+'px'};
     box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
 
