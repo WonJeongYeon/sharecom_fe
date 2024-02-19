@@ -55,4 +55,7 @@ export const GlobalStyle = createGlobalStyle`
         border: ${({theme}) => theme.borderColor};
         background: ${({theme}) => theme.tdColor};
     }
+    a {
+        color: ${({theme}) => theme.textColor};
+    }
 `;
