@@ -1,20 +1,16 @@
 import styled from "styled-components";
-import parts from "./parts.json";
 import {useEffect, useRef, useState} from "react";
 import axios, {get} from "axios";
 import AddParts from "../modal/AddParts";
 import {useDispatch, useSelector} from "react-redux";
 import {add, deletedParts} from "../redux/modalSlice";
 import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
 import Dropdown from "./Dropdown";
 import ModifyParts from "../modal/ModifyParts";
 import DeleteParts from "../modal/DeleteParts";
 import DetailParts from "../modal/DetailParts";
-import InputSelect from "../common/modal/InputSelect";
 import SearchSelect from "../common/Search/SearchSelect";
 import SearchText from "../common/Search/SearchText";
-import RoundButton from "../common/modal/RoundButton";
 import SearchRoundButton from "../common/Search/SearchRoundButton";
 import SearchArea from "../common/Search/SearchArea";
 import AddButton from "../common/Search/AddButton";
@@ -138,7 +134,6 @@ const Parts = (props) => {
             console.log(data);
             console.log(data.data.response);
             let arr = data.data.response;
-            // arr.sort((a, b) => a.type.localeCompare(b.type))
             setData(arr);
             return data.data.response;
         } catch (e) {
