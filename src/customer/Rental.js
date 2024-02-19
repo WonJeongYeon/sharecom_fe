@@ -6,43 +6,18 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import CloseBtn from "../common/modal/CloseBtn";
+import ModalHeader from "../common/modal/ModalHeader";
+import CustomModal from "../common/modal/CustomModal";
+import CustomModalContainer from "../common/modal/CustomModalContainer";
+import InputArea from "../common/modal/InputArea";
+import InputLabel from "../common/modal/InputLabel";
+import InputSelect from "../common/modal/InputSelect";
+import SearchSelect from "../common/Search/SearchSelect";
+import InputDateSelect from "../common/modal/InputDateSelect";
+import InputText from "../common/modal/InputText";
+import AddButton from "../common/Search/AddButton";
 
-const Modal = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-
-  /*display: none;*/
-
-  z-index: 15;
-  background-color: rgba(0, 0, 0, 0.4);
-
-
-`;
-
-const ModalContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-
-  width: 70%;
-  height: 500px;
-
-  padding: 40px;
-
-  text-align: center;
-
-  background-color: rgb(255, 255, 255);
-  border-radius: 5px;
-  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-  transform: translateX(-50%) translateY(-50%);
-  overflow-y: scroll;
-
-`;
 
 const AddParts = (props) => {
     const dispatch = useDispatch();
@@ -149,7 +124,7 @@ const AddParts = (props) => {
                 resultArr = data.data.response;
                 if (complete && completed) {
                     //대여 로그 API 호출
-                    for (let i = 0; i<resultArr.length; i++) {
+                    for (let i = 0; i < resultArr.length; i++) {
                         const update = await axios.post(process.env.REACT_APP_DB_HOST + "/rental/update", {
                             type: "RENTAL",
                             rentalId: resultArr[i]
@@ -170,14 +145,26 @@ const AddParts = (props) => {
     }
 
     return (
-        <Modal className={"modal"} onClick={(e) => {
+        <CustomModal className={"modal"} onClick={(e) => {
             if (e.target.classList.contains("modal")) dispatch(close())
         }}>
-            <ModalContainer className={"modal_container"}>
-                <div><h2>대여정보 입력</h2></div>
-                <div>
-                    <label>고객명</label>
-                    <select
+            <CustomModalContainer width={400} height={500} className={"modal_container"}>
+                <ModalHeader>
+                    대여정보 입력
+                    <CloseBtn onClick={() => {
+                        dispatch(close())
+                    }}>
+                        <svg clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2"
+                             viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"/>
+                        </svg>
+                    </CloseBtn>
+                </ModalHeader>
+                <InputArea>
+                    <InputLabel>고객명</InputLabel>
+                    <InputSelect
                         disabled={id !== 0}
                         // value={id === 0 ? "" : name}
                         onChange={(e) => {
@@ -187,115 +174,143 @@ const AddParts = (props) => {
                         {data.map((item, index) => {
                             return <option key={index} value={item.id}>{item.name}</option>
                         })}
-                    </select>
-                </div>
+                    </InputSelect>
+                </InputArea>
 
-                <div>
-                    <label>대여 PC 지정</label>
+                <InputArea>
+                    <InputLabel>대여 PC 지정</InputLabel>
                     {
-                        <select multiple={true} name="languages" size="5" onChange={
-                            (e) => {
-                                let selected = e.target.selectedOptions
-                                console.log(selected)
-                                let arr = [];
-                                if (selected.length == 1) {
-                                    arr.push(e.target.selectedOptions[0].value)
+                        <div style={{display: 'flex', flexDirection: 'row'}}>
+                            <InputSelect style={{width:'60%'}} multiple={true} name="languages" size="5" onChange={
+                                (e) => {
+                                    let selected = e.target.selectedOptions
+                                    console.log(selected)
+                                    let arr = [];
+                                    if (selected.length == 1) {
+                                        arr.push(e.target.selectedOptions[0].value)
+                                        setPcArr(arr);
+                                        return;
+                                    }
+                                    for (let i = 0; i < selected.length; i++) {
+                                        arr.push(selected[i].value)
+                                    }
                                     setPcArr(arr);
-                                    return;
                                 }
-                                for (let i = 0; i < selected.length; i++) {
-                                    arr.push(selected[i].value)
+                            }>
+                                {
+                                    pcData.map((item, index) => {
+                                        return (
+                                            <option value={item.id} key={index}>{item.serial}</option>
+                                        )
+                                    })
                                 }
-                                setPcArr(arr);
-                            }
-                        }>
-                            {
-                                pcData.map((item, index) => {
+                            </InputSelect>
+                            <div style={{marginLeft: '10px', textAlign: 'left'}}>
+
+                                {pcData.filter(pc => pcArr.includes(pc.id.toString())).map((item, index) => {
                                     return (
-                                        <option value={item.id} key={index}>{item.serial}</option>
+                                        <span>{item.serial} - {item.etc === '' ? '(기타사항 없음)' : item.etc}<br/></span>
                                     )
                                 })
-                            }
-                        </select>
+
+                                }
+                            </div>
+                        </div>
                     }
-                </div>
+                </InputArea>
                 <div>
                     기간 설정<br/>
-                    <label>시작일</label>
-                    <select onChange={(e) => {
-                        console.log(e.target.value)
-                        setStartYear(e.target.value)
-                    }}>
-                        {years().map((item, index) => {
-                            return (
-                                <option value={item}>{item}</option>
-                            )
-                        })}
-                    </select>
-                    <select onChange={(e) => {
-                        setStartMonth(e.target.value)
-                    }}>
-                        {months().map((item, index) => {
-                            return (
-                                <option value={item}>{item}</option>
-                            )
-                        })}
-                    </select>
-                    <select onChange={(e) => {
-                        setStartDay(e.target.value)
-                    }}>
-                        {days().map((item, index) => {
-                            return (
-                                <option value={item}>{item}</option>
-                            )
-                        })}
-                    </select>
+                    <InputArea>
+                    <InputLabel>시작일</InputLabel>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                            <InputDateSelect style={{marginBottom: '0'}} onChange={(e) => {
+                                console.log(e.target.value)
+                                setStartYear(e.target.value)
+                            }}>
+                                {years().map((item, index) => {
+                                    return (
+                                        <option value={item}>{item}</option>
+                                    )
+                                })}
+                            </InputDateSelect>
+                            <span style={{margin: '0 5px'}}> - </span>
+                            <InputDateSelect style={{marginBottom: '0'}} onChange={(e) => {
+                                setStartMonth(e.target.value)
+                            }}>
+                                {months().map((item, index) => {
+                                    return (
+                                        <option value={item}>{item}</option>
+                                    )
+                                })}
+                            </InputDateSelect>
+                            <span style={{margin: '0 5px'}}> - </span>
+                            <InputDateSelect style={{marginBottom: '0'}} onChange={(e) => {
+                                setStartDay(e.target.value)
+                            }}>
+                                {days().map((item, index) => {
+                                    return (
+                                        <option value={item}>{item}</option>
+                                    )
+                                })}
+                            </InputDateSelect>
+                        </div>
+                    </InputArea>
                     <br/>
-                    <label>종료일</label>
-                    <select onChange={(e) => {
-                        setEndYear(e.target.value)
-                    }}>
-                        {years().map((item, index) => {
-                            return (
-                                <option value={item}>{item}</option>
-                            )
-                        })}
-                    </select>
-                    <select onChange={(e) => {
-                        setEndMonth(e.target.value)
-                    }}>
-                        {months().map((item, index) => {
-                            return (
-                                <option value={item}>{item}</option>
-                            )
-                        })}
-                    </select>
-                    <select onChange={(e) => {
-                        setEndDay(e.target.value)
-                    }}>
-                        {days().map((item, index) => {
-                            return (
-                                <option value={item}>{item}</option>
-                            )
-                        })}
-                    </select>
+                    <div>~</div>
+                    <InputArea>
+                    <InputLabel style={{textAlign: 'right'}}>종료일</InputLabel>
+                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'right'}}>
+                            <InputDateSelect style={{marginBottom: '0'}} onChange={(e) => {
+                                setEndYear(e.target.value)
+                            }}>
+                                {years().map((item, index) => {
+                                    return (
+                                        <option value={item}>{item}</option>
+                                    )
+                                })}
+                            </InputDateSelect>
+                            <span style={{margin: '0 5px'}}> - </span>
+                            <InputDateSelect style={{marginBottom: '0'}} onChange={(e) => {
+                                setEndMonth(e.target.value)
+                            }}>
+                                {months().map((item, index) => {
+                                    return (
+                                        <option value={item}>{item}</option>
+                                    )
+                                })}
+                            </InputDateSelect>
+                            <span style={{margin: '0 5px'}}> - </span>
+                            <InputDateSelect style={{marginBottom: '0'}} onChange={(e) => {
+                                setEndDay(e.target.value)
+                            }}>
+                                {days().map((item, index) => {
+                                    return (
+                                        <option value={item}>{item}</option>
+                                    )
+                                })}
+                            </InputDateSelect>
+                        </div>
+                    </InputArea>
 
                 </div>
-                <div>
-                    <label>비고</label>
-                    <input type="text" placeholder={"비고"} onInput={(e) => {setEtc(e.target.value)}}/>
-                </div>
-                <div>
+                <InputArea>
+                    <InputLabel>비고</InputLabel>
+                    <InputText type="text" placeholder={"비고"} onInput={(e) => {
+                        setEtc(e.target.value)
+                    }}/>
+                </InputArea>
+                <div style={{marginBottom: '15px'}}>
                     <label>이미 실제 대여 처리가 완료되었나요?</label>
                     <input type={"checkbox"} onChange={(e) => {
                         console.log(e.target.checked)
-                        setCompleted(e.target.checked)}}/>
+                        setCompleted(e.target.checked)
+                    }}/>
                     <br/>
-                    <label style={{fontSize:"10px"}}>여러 대의 PC 중 일부만 완료되었을 경우, 대여 처리는 수동으로 진행해 주세요.</label>
+                    <label style={{fontSize: "10px"}}>여러 대의 PC 중 일부만 완료되었을 경우, 대여 처리는 수동으로 진행해 주세요.</label>
                 </div>
-                <button onClick={saveRentalData}>저장하기</button>
-            </ModalContainer>
-        </Modal>
+                <AddButton onClick={saveRentalData}>저장하기</AddButton>
+            </CustomModalContainer>
+        </CustomModal>
     )
 }
 

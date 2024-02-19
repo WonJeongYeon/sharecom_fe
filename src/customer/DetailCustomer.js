@@ -136,6 +136,7 @@ const DetailCustomer = (props) => {
                             <a href={naverMapsUri(data.address)} target="_blank" style={{marginLeft: '10px'}}>
                                 네이버 지도로 보기</a>}
                     </div>
+                    <div>!!TODO 지도 API 연동</div>
                     {desktopArr.length !== 0 ? <TableContainer>
                             <TableHeader>본체번호</TableHeader>
                             <TableHeader>본체 기타사항</TableHeader>
