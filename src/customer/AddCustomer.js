@@ -6,60 +6,39 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import CustomModal from "../common/modal/CustomModal";
+import CustomModalContainer from "../common/modal/CustomModalContainer";
+import CloseBtn from "../common/modal/CloseBtn";
+import ModalHeader from "../common/modal/ModalHeader";
+import InputArea from "../common/modal/InputArea";
+import InputLabel from "../common/modal/InputLabel";
+import InputText from "../common/modal/InputText";
+import InputDateSelect from "../common/modal/InputDateSelect";
+import Years from "../common/Module/Years";
+import Months from "../common/Module/Months";
+import Days from "../common/Module/Days";
+import RoundButton from "../common/modal/RoundButton";
 
-const Modal = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    /*display: none;*/
-
-    z-index: 15;
-    background-color: rgba(0, 0, 0, 0.4);
-  
-
-`;
-
-const ModalContainer = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    width: 350px;
-    height: 500px;
-
-    padding: 40px;
-
-    text-align: center;
-
-    background-color: rgb(255, 255, 255);
-    border-radius: 5px;
-    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-    transform: translateX(-50%) translateY(-50%);
-    overflow-y: scroll;
-  
-`;
 
 const AddParts = (props) => {
     const dispatch = useDispatch();
-    const [name, setName] = useState();
-    const [address, setAddress] = useState();
-    const [phone, setPhone] = useState();
+    const [name, setName] = useState(null);
+    const [address, setAddress] = useState(null);
+    const [phone, setPhone] = useState(null);
     const [birth, setBirth] = useState(new Date());
     const [etc, setEtc] = useState();
 
 
+    const [birthYear, setBirthYear] = useState(2023);
+    const [birthMonth, setBirthMonth] = useState(1);
+    const [birthDay, setBirthDay] = useState(1);
 
     const saveCustomer = async () => {
         try {
             //dayjs 라이브러리를 씁시다 Format 설정이 가능함 이따구로 안하고
-            const dateStr = birth.getFullYear() +
-            '-' + ( (birth.getMonth()+1) < 9 ? "0" + (birth.getMonth()+1) : (birth.getMonth()+1) )+
-            '-' + ( (birth.getDate()) < 9 ? "0" + (birth.getDate()) : (birth.getDate()) )
+            const dateStr = birthYear + "-"
+                + (birthMonth < 10 ? "0" + birthMonth : birthMonth) + "-"
+                + (birthDay < 10 ? "0" + birthDay : birthDay)
             const data = await axios.post(process.env.REACT_APP_DB_HOST + "/customer",  {
                 address: address,
                 etc: etc,
@@ -83,44 +62,99 @@ const AddParts = (props) => {
 
 
     return (
-        <Modal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
-            <ModalContainer className={"modal_container"}>
+        <CustomModal className={"modal"} onClick={(e) => {if (e.target.classList.contains("modal")) dispatch(close())}}>
+            <CustomModalContainer width={350} height={600} className={"modal_container"}>
 
                 <div>
-                    <h2>신규 고객 등록</h2>
-                    <div>
-                        <label>고객명</label>
-                        <input type={"text"} placeholder={"고객명"}
-                               onInput={(e) => {setName(e.target.value)}}/>
-                    </div>
-                    <div>
-                        <label>주소</label>
-                        <input type={"text"} placeholder={"주소"}
-                               onInput={(e) => {setAddress(e.target.value)}}/>
-                    </div>
-                    <div>
-                        <label>전화번호</label>
-                        <input type={"text"} placeholder={"전화번호"}
-                               onInput={(e) => {setPhone(e.target.value)}}/>
-                    </div>
-                    <div>
-                        <label>생년월일</label>
-                        <DatePicker
-                            showIcon
-                            selected={birth}
-                            onChange={date => {setBirth(date)}}
-                        />
-                    </div>
-                    <div>
-                        <label>비고</label>
-                        <input type={"text"} placeholder={"ETC"}
-                               onInput={(e) => {setEtc(e.target.value)}}/>
+                    <ModalHeader>
+                        신규 고객 등록
+                        <CloseBtn onClick={() => {
+                            dispatch(close())
+                        }}>
+                            <svg clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2"
+                                 viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"/>
+                            </svg>
+                        </CloseBtn>
+                    </ModalHeader>
+                    <InputArea>
+                        <InputLabel><span style={{color: 'red'}}>* </span>고객명</InputLabel>
+                        <InputText type={"text"} placeholder={"고객명을 입력하세요."}
+                                   onInput={(e) => {
+                                       setName(e.target.value)
+                                   }}/>
+                    </InputArea>
+                    <InputArea>
+                        <InputLabel><span style={{color: 'red'}}>* </span>주소</InputLabel>
+                        <InputText type={"text"} placeholder={"주소를 입력하세요."}
+                                   onInput={(e) => {
+                                       setAddress(e.target.value)
+                                   }}/>
+                    </InputArea>
+                    <InputArea>
+                        <InputLabel><span style={{color: 'red'}}>* </span>전화번호</InputLabel>
+                        <InputText type={"text"} placeholder={"전화번호를 입력하세요."}
+                                   onInput={(e) => {
+                                       setPhone(e.target.value)
+                                   }}/>
+                    </InputArea>
+                    <InputArea>
+                        <InputLabel><span style={{color: 'red'}}>* </span>생년월일</InputLabel>
+                        <div>
+                            <InputDateSelect onChange={(e) => {
+                                // console.log(e.target.value)
+                                setBirthYear(e.target.value)
+                            }}>
+                                {Years(1950, 2010).map((item, index) => {
+                                    return (
+                                        <option value={item}>{item}</option>
+                                    )
+                                })}
+                            </InputDateSelect>
+                            <span> - </span>
+                            <InputDateSelect onChange={(e) => {
+                                setBirthMonth(e.target.value)
+                            }}>
+                                {Months().map((item, index) => {
+                                    return (
+                                        <option value={item}>{item}</option>
+                                    )
+                                })}
+                            </InputDateSelect>
+                            <span> - </span>
+                            <InputDateSelect onChange={(e) => {
+                                setBirthDay(e.target.value)
+                            }}>
+                                {Days(birthMonth, birthYear).map((item, index) => {
+                                    return (
+                                        <option value={item}>{item}</option>
+                                    )
+                                })}
+                            </InputDateSelect>
+
+
+                        </div>
+                    </InputArea>
+                    <InputArea>
+                        <InputLabel>참고사항</InputLabel>
+                        <InputText type={"text"} placeholder={"참고사항을 입력하세요."}
+                                   onInput={(e) => {
+                                       setEtc(e.target.value)
+                                   }}/>
+                    </InputArea>
+                    <div style={{textAlign: 'right', fontSize: '12px'}}>
+                        <span style={{color: 'red'}}>* </span><span style={{color: 'grey'}}> 필수 입력사항</span><br/>
                     </div>
 
-                    <button type="button" onClick={() => {saveCustomer()}}>저장하기</button>
+                    <RoundButton disabled={name===null || address===null || phone === null} type="button" onClick={() => {
+                        saveCustomer()
+                    }}>저장하기
+                    </RoundButton>
                 </div>
-            </ModalContainer>
-        </Modal>
+            </CustomModalContainer>
+        </CustomModal>
     )
 }
 
