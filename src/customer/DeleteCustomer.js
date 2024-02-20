@@ -38,7 +38,8 @@ const DeleteCustomer = (props) => {
                         onClick={(e) => {dispatch(close())}}>확인</div>
                     </div>
                         : <div>
-                            <div style={{height: "150px", display:"flex", flexDirection:"column", justifyContent: "center", alignItems: "center"}}><h2>정말로 삭제하시겠습니까?</h2>
+                            <div style={{height: "150px", display:"flex", flexDirection:"column", justifyContent: "center", alignItems: "center"}}>
+                                <p style={{fontWeight: '600', fontSize:'24px', marginBottom: '30px'}}>정말로 삭제하시겠습니까?</p>
                             <p>고객 정보를 삭제하더라도 본 고객의 대여 기록은 삭제되지 않습니다.<br/>또한 삭제된 고객 정보는 언제든지 복구할 수 있습니다.</p></div>
                             <hr></hr>
                         <div style={{width: "100%", height:"55px", display: "flex", flexDirection: "row"}}>
