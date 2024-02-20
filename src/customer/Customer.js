@@ -19,6 +19,7 @@ import SearchRoundButton from "../common/Search/SearchRoundButton";
 import AddButton from "../common/Search/AddButton";
 import DeleteParts from "../modal/DeleteParts";
 import ModifyCustomer from "./ModifyCustomer";
+import DeleteCustomer from "./DeleteCustomer";
 
 
 
@@ -92,6 +93,7 @@ const Customer = () => {
             {modal === "rental_input" && <Rental/>}
             {modal === "customer_detail" && <DetailCustomer data={detailCustomerId}/>}
             {modal === "modify_customer" && <ModifyCustomer data={modifyCustomer}/>}
+            {modal === 'delete_customer' && <DeleteCustomer data={modifyCustomer}/>}
             <div style={{margin: '10px'}}>
                 고객 검색
             </div>

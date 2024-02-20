@@ -1,6 +1,6 @@
 import '../parts/Dropdown.css';
 import {useDispatch} from "react-redux";
-import {customerDetail, inactive, modifyCustomer, modifyParts} from "../redux/modalSlice";
+import {customerDetail, deleteCustomer, inactive, modifyCustomer, modifyParts} from "../redux/modalSlice";
 import styled from "styled-components";
 
 const DropdownArea = styled.div`
@@ -43,7 +43,7 @@ const CustomerDropdown = (props) => {
 
             </ul>
             <div className="user_dropdown_logOut deleteButton" style={{color: "red"}} onClick={() => {
-                // dispatch(inactive());
+                dispatch(deleteCustomer());
             }}>
                 삭제
             </div>
