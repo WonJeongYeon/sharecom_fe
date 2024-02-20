@@ -11,6 +11,7 @@ import TableHeader from "../common/ListTable/TableHeader";
 import TableSpan from "../common/ListTable/TableSpan";
 import styled from "styled-components";
 import UsedTag from "../common/UsedTag";
+import convertStateColor from "../common/Module/ConvertStateColor";
 
 
 
@@ -90,7 +91,7 @@ const All = () => {
                         <TableSpan>{convertTimestamp(item.start_date)}</TableSpan>
                         <TableSpan>{convertTimestamp(item.end_date)}</TableSpan>
                         <TableSpan>{item.etc}</TableSpan>
-                        <TableSpan style={{color: 'green'}}><UsedTag>{convertState(item.type)}</UsedTag></TableSpan>
+                        <TableSpan style={{color: convertStateColor(item.type)}}><UsedTag state={item.type}>{convertState(item.type)}</UsedTag></TableSpan>
                         <TableSpan><MoreButton  onClick={(e) => {
                             console.log(e.target.className);
                             if (dropdown === item.desktopId) {

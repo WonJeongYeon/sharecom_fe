@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import Dropdown from "../parts/Dropdown";
 import axios from "axios";
@@ -17,6 +17,8 @@ import UsedTag from "../common/UsedTag";
 import SearchText from "../common/Search/SearchText";
 import SearchRoundButton from "../common/Search/SearchRoundButton";
 import AddButton from "../common/Search/AddButton";
+import DeleteParts from "../modal/DeleteParts";
+import ModifyCustomer from "./ModifyCustomer";
 
 
 
@@ -46,9 +48,12 @@ const Customer = () => {
     const [dropdown, setDropdown] = useState(0);
 
     const [detailCustomerId, setDetailCustomerId] = useState(0);
+    const [modifyCustomer, setModifyCustomer] = useState("{}")
 
     const dispatch = useDispatch();
     const modal = useSelector((state) => state.modal.value);
+
+    const moreButtonRef = useRef();
 
     const getData = async () => {
         try {
@@ -86,6 +91,7 @@ const Customer = () => {
             {modal === "add" && <AddCustomer/>}
             {modal === "rental_input" && <Rental/>}
             {modal === "customer_detail" && <DetailCustomer data={detailCustomerId}/>}
+            {modal === "modify_customer" && <ModifyCustomer data={modifyCustomer}/>}
             <div style={{margin: '10px'}}>
                 고객 검색
             </div>
@@ -130,7 +136,7 @@ const Customer = () => {
                 <TableHeader width={'90px'}>생년월일</TableHeader>
                 <TableHeader>기타사항</TableHeader>
                 <TableHeader width={'70px'}>대여여부</TableHeader>
-                <TableHeader width={'13px'}></TableHeader>
+                <TableHeader ref={moreButtonRef} width={'13px'}></TableHeader>
                 {/*</TableDiv>*/}
                 {
                     data.map((item, index) => {
@@ -143,7 +149,7 @@ const Customer = () => {
                                 <TableSpan>{item.birth[0] + "." + item.birth[1] + "." + item.birth[2]}</TableSpan>
                                 <TableSpan>{item.etc}</TableSpan>
                                 <TableSpan style={{color: item.rentalState? "red" : "blue"}}>
-                                    <UsedTag used={item.rentalState}>{item.rentalState ? "대여 중" : "-"}</UsedTag>
+                                    <UsedTag state={item.rentalState.toString()}>{item.rentalState ? "대여 중" : "-"}</UsedTag>
                                 </TableSpan>
                                 <TableSpan>
 
@@ -154,7 +160,10 @@ const Customer = () => {
                                         } else {
                                             setDetailCustomerId(item.id);
                                             setDropdown(item.id)}
+                                        setModifyCustomer(JSON.stringify(item));
                                     }}>
+                                        {dropdown === item.id &&
+                                            <CustomerDropdown point={moreButtonRef.current.getBoundingClientRect().left}/>}
                                         <svg className="dropdown" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round"
                                              strokeMiterlimit="2" viewBox="0 0 24 24"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -165,7 +174,7 @@ const Customer = () => {
                                     </MoreButton>
 
                                 </TableSpan>
-                                {dropdown === item.id && <CustomerDropdown/>}
+                                {/*{dropdown === item.id && <CustomerDropdown point={moreButtonRef.current.getBoundingClientRect().left}/>}*/}
                             </tr>
                         );
                     })

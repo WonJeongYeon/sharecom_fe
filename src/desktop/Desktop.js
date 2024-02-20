@@ -183,7 +183,7 @@ const Desktop = () => {
                         <div>
                             <div>{detailData.serial}<UsedTag
                                 style={{marginLeft: '5px', color: detailData.usedYn ? "red" : "green"}}
-                                used={detailData.usedYn}>{detailData.usedYn ? "대여 중" : "대여 가능"}</UsedTag></div>
+                                state={detailData.usedYn.toString()}>{detailData.usedYn ? "대여 중" : "대여 가능"}</UsedTag></div>
                             {/*<div>현재 대여 여부 : {detailData.usedYn ? "대여 중" : "대여 중이지 않음"}</div>*/}
                             {detailData.usedYn &&
                                 <div style={{marginTop: '5px', marginBottom: '5px'}}>대여일자 : {detailData.usedAt}</div>}

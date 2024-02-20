@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ConvertBackgroundStateColor from "./Module/ConvertBackgroundStateColor";
 
 const UsedTag = styled.span`
     border-radius: 30px;
@@ -11,7 +12,7 @@ const UsedTag = styled.span`
     font-size: 13px;
     width: 60px;
     justify-content: center;
-    background-color: ${props => props.used? "#f5d0cd" : "#d2ebd3"};
+    background-color: ${props => ConvertBackgroundStateColor(props.state)};
 `;
 
 export default UsedTag;

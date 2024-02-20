@@ -305,7 +305,7 @@ const Parts = (props) => {
                                 <TableSpan>{ConvertLocalDate(item.buy_at)}</TableSpan>
                                 <TableSpan align={"center"}
                                     style={{color: item.used_yn ? "red" : "green"}}>
-                                    <UsedTag used={item.used_yn}>{item.used_yn ? "사용 중" : "사용 가능"}</UsedTag>
+                                    <UsedTag state={item.used_yn.toString()}>{item.used_yn ? "사용 중" : "사용 가능"}</UsedTag>
                                 </TableSpan>
                                 <TableSpanEtc>{item.etc}</TableSpanEtc>
                                 <TableSpan>
