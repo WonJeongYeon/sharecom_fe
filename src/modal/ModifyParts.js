@@ -16,6 +16,9 @@ import InputDateSelect from "../common/modal/InputDateSelect";
 import RoundButton from "../common/modal/RoundButton";
 import CustomModal from "../common/modal/CustomModal";
 import CustomModalContainer from "../common/modal/CustomModalContainer";
+import Years from "../common/Module/Years";
+import Months from "../common/Module/Months";
+import Days from "../common/Module/Days";
 
 
 const ModifyParts = (props) => {
@@ -34,29 +37,6 @@ const ModifyParts = (props) => {
     const [buyMonth, setBuyMonth] = useState(parseData.buy_at[1]);
     const [buyDay, setBuyDay] = useState(parseData.buy_at[2]);
 
-    const years = () => {
-        let arr = [];
-        for (let i = 2023; i < 2030; i++) {
-            arr.push(i);
-        }
-        return arr;
-    }
-
-    const months = () => {
-        let arr = [];
-        for (let i = 1; i < 13; i++) {
-            arr.push(i);
-        }
-        return arr;
-    }
-
-    const days = () => {
-        let arr = [];
-        for (let i = 1; i < 32; i++) {
-            arr.push(i);
-        }
-        return arr;
-    }
 
 
     const saveParts = async () => {
@@ -143,7 +123,7 @@ const ModifyParts = (props) => {
                                 // console.log(e.target.value)
                                 setBuyYear(e.target.value)
                             }}>
-                                {years().map((item, index) => {
+                                {Years(2023, 2030).map((item, index) => {
                                     return (
                                         <option selected={buyYear === item} value={item}>{item}</option>
                                     )
@@ -153,7 +133,7 @@ const ModifyParts = (props) => {
                             <InputDateSelect onChange={(e) => {
                                 setBuyMonth(e.target.value)
                             }}>
-                                {months().map((item, index) => {
+                                {Months().map((item, index) => {
                                     return (
                                         <option selected={buyMonth === item} value={item}>{item}</option>
                                     )
@@ -163,7 +143,7 @@ const ModifyParts = (props) => {
                             <InputDateSelect onChange={(e) => {
                                 setBuyDay(e.target.value)
                             }}>
-                                {days().map((item, index) => {
+                                {Days(buyMonth, buyYear).map((item, index) => {
                                     return (
                                         <option selected={buyDay === item} value={item}>{item}</option>
                                     )
