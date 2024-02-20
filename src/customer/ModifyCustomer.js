@@ -145,7 +145,6 @@ const ModifyCustomer = (props) => {
 
                     <RoundButton disabled={name==='' || address==='' || phone === ''} type="button" onClick={() => {
                         saveCustomer()
-                        // alert(birthYear + ' ' + birthMonth + ' ' + birthDay);
                     }}>저장하기
                     </RoundButton>
                 </div>
