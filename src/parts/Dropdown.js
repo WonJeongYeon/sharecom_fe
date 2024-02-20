@@ -11,7 +11,7 @@ const DropdownArea = styled.div`
   left: ${(props) => props.left + window.scrollX - 192 + 16 - 50}px;
   /*right: 5%;*/
   margin-top: 30px;
-
+    z-index: 1000;
   display: block;
   /*border: 1px solid black;*/
   background-color: white;

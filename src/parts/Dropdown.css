@@ -19,7 +19,7 @@
 
 .user_dropdownPoint {
     position: absolute;
-    right: 0;
+    right: -19px;
 
     bottom: 100%;
     height: 11px;
