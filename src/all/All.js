@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {rentalInput} from "../redux/modalSlice";
 import {useDispatch, useSelector} from "react-redux";
 import Rental from "../customer/Rental";
@@ -12,6 +12,8 @@ import TableSpan from "../common/ListTable/TableSpan";
 import styled from "styled-components";
 import UsedTag from "../common/UsedTag";
 import convertStateColor from "../common/Module/ConvertStateColor";
+import AllDropdown from "./AllDropdown";
+import ManageRental from "./ManageRental";
 
 
 
@@ -20,11 +22,16 @@ const All = () => {
 
 
 
+    const moreButtonRef = useRef();
 
     const [data, setData] = useState([]);
 
     const [dropdown, setDropdown] = useState(0);
     const [desktopId,setDesktopId] = useState(0);
+
+    const [detailRental, setDetailRental] = useState("{}");
+
+
     const getData = async () => {
         try {
             const data = await axios.get(process.env.REACT_APP_DB_HOST + `/all`);
@@ -50,7 +57,7 @@ const All = () => {
         switch (state) {
             case "RENTAL" : value = "대여 완료"; return value;
             case "RESERVATION" : value = "예약 중"; return value;
-            case "RETURN_DELAYED" : value = "반납 지연 완료"; return value;
+            case "RETURN_DELAYED" : value = "반납 지연"; return value;
             case "RETURN_NORMAL" : value = "반납 완료"; return value;
             case "RETURN_ALREADY" : value = "조기 반납 완료"; return value;
             case null : value = "대여 가능"; return value;
@@ -65,7 +72,8 @@ const All = () => {
         }}>
 
 
-            {modal === "rental_input" && <Rental/>}
+            {modal === "rental_input" && <Rental desktopId={desktopId}/>}
+            {modal === "manage_rental" && <ManageRental data={detailRental}/>}
             <div>
                 <AddButton type="button" onClick={() => {
                     const reduxData = {id: 0, name: ''};
@@ -79,7 +87,7 @@ const All = () => {
                 <TableHeader width={'100px'}>종료일</TableHeader>
                 <TableHeader width={'200px'}>특이사항</TableHeader>
                 <TableHeader width={'60px'}>대여 상태</TableHeader>
-                <TableHeader width={'13px'}></TableHeader>
+                <TableHeader width={'13px'} ref={moreButtonRef}></TableHeader>
             {
 
             data.map((item, index) => {
@@ -99,14 +107,19 @@ const All = () => {
                             } else {
                                 setDesktopId(item.desktopId);
                                 setDropdown(item.desktopId)}
+                            setDetailRental(JSON.stringify(item));
                         }}>
+                            {dropdown === item.desktopId && <AllDropdown desktopId={item.desktopId} state={item.type !== null} point={moreButtonRef.current.getBoundingClientRect().left}/>}
                             <svg className="dropdown" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round"
                                  strokeMiterlimit="2" viewBox="0 0 24 24"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="m16.5 11.995c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25zm-6.75 0c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25zm-6.75 0c0-1.242 1.008-2.25 2.25-2.25s2.25 1.008 2.25 2.25-1.008 2.25-2.25 2.25-2.25-1.008-2.25-2.25z"/>
-                            </svg></MoreButton></TableSpan>
-                        {dropdown === item.desktopId && <CustomerDropdown/>}
+                            </svg>
+
+                        </MoreButton>
+                        </TableSpan>
+
                     </tr>
                 )
             })

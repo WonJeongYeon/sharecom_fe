@@ -150,7 +150,7 @@ const Customer = () => {
                                 <TableSpan>{item.phone}</TableSpan>
                                 <TableSpan>{item.birth[0] + "." + item.birth[1] + "." + item.birth[2]}</TableSpan>
                                 <TableSpan>{item.etc}</TableSpan>
-                                <TableSpan style={{color: item.rentalState? "red" : "blue"}}>
+                                <TableSpan style={{color: item.rentalState? "red" : "green"}}>
                                     <UsedTag state={item.rentalState.toString()}>{item.rentalState ? "대여 중" : "-"}</UsedTag>
                                 </TableSpan>
                                 <TableSpan>

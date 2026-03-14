@@ -22,6 +22,7 @@ import AddButton from "../common/Search/AddButton";
 const AddParts = (props) => {
     const dispatch = useDispatch();
 
+
     const id = useSelector((state) => state.modal.id);
     const name = useSelector((state) => state.modal.name);
 
@@ -74,6 +75,9 @@ const AddParts = (props) => {
     useEffect(() => {
         getData();
         getPcData();
+        let arr = [];
+        arr.push(props.desktopId);
+        setPcArr(arr);
     }, [])
 
     const years = () => {
@@ -181,7 +185,7 @@ const AddParts = (props) => {
                     <InputLabel>대여 PC 지정</InputLabel>
                     {
                         <div style={{display: 'flex', flexDirection: 'row'}}>
-                            <InputSelect style={{width:'60%'}} multiple={true} name="languages" size="5" onChange={
+                            <InputSelect disabled={props.desktopId !== 0} style={{width:'60%'}} multiple={true} name="languages" size="5" onChange={
                                 (e) => {
                                     let selected = e.target.selectedOptions
                                     console.log(selected)
@@ -200,7 +204,7 @@ const AddParts = (props) => {
                                 {
                                     pcData.map((item, index) => {
                                         return (
-                                            <option value={item.id} key={index}>{item.serial}</option>
+                                            <option selected={props.desktopId === null ? false : item.id===props.desktopId} value={item.id} key={index}>{item.serial}</option>
                                         )
                                     })
                                 }
